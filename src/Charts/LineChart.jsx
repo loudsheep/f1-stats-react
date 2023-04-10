@@ -4,15 +4,6 @@ import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import { useLayoutEffect, useRef } from "react";
 import myData from '../assets/data.json';
 
-function msToTime(s) {
-    var ms = s % 1000;
-    s = (s - ms) / 1000;
-    var secs = s % 60;
-    s = (s - secs) / 60;
-    var mins = s % 60;
-    return mins + ':' + secs + '.' + ms;
-}
-
 export default function LineChart() {
     const chartRef = useRef(null);
 
@@ -20,10 +11,13 @@ export default function LineChart() {
     useLayoutEffect(() => {
         let root = am5.Root.new("chartdiv");
 
+        root.interfaceColors.set("grid", am5.color("#fff"));
+        root.interfaceColors.set("text", am5.color("#fff"));
+
         let chart = root.container.children.push(
             am5xy.XYChart.new(root, {
                 panY: false,
-                layout: root.verticalLayout
+                layout: root.verticalLayout,
             })
         );
 
@@ -47,7 +41,7 @@ export default function LineChart() {
         // Create series
         let series1 = chart.series.push(
             am5xy.LineSeries.new(root, {
-                name: "Series",
+                name: "Speed",
                 xAxis: xAxis,
                 yAxis: yAxis,
                 valueYField: "Speed",
