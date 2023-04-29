@@ -7,9 +7,8 @@ import myData from '../assets/data.json';
 export default function LineChart() {
     const chartRef = useRef(null);
 
-
-    useLayoutEffect(() => {
-        let root = am5.Root.new("chartdiv");
+    const createChart = (id, data, name, color) => {
+        let root = am5.Root.new(id);
 
         root.interfaceColors.set("grid", am5.color("#fff"));
         root.interfaceColors.set("text", am5.color("#fff"));
@@ -20,8 +19,6 @@ export default function LineChart() {
                 layout: root.verticalLayout,
             })
         );
-
-        let data = myData.speed;
 
         // Create Y-axis
         let yAxis = chart.yAxes.push(
@@ -41,30 +38,39 @@ export default function LineChart() {
         // Create series
         let series1 = chart.series.push(
             am5xy.LineSeries.new(root, {
-                name: "Speed",
+                name: name,
                 xAxis: xAxis,
                 yAxis: yAxis,
-                valueYField: "Speed",
-                valueXField: "Distance",
+                valueYField: "Y",
+                valueXField: "X",
                 tooltip: am5.Tooltip.new(root, {
-                    labelText: "[bold]{valueY} km/h"
+                    labelText: "[bold]{valueY}"
                 })
             })
         );
         series1.data.setAll(data);
+
 
         // Add legend
         let legend = chart.children.push(am5.Legend.new(root, {}));
         legend.data.setAll(chart.series.values);
 
         // Add cursor
-        chart.set("cursor", am5xy.XYCursor.new(root, {
-            snapToSeries: [series1],
-            snapToSeriesBy: "x"
+        let cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
+            // snapToSeries: [series1],
+            // snapToSeriesBy: "x",
+            // stroke: am5.color('#ff0000'),
         }));
 
-        // xAxis.set("tooltip", am5.Tooltip.new(root, {}));
-        // yAxis.set("tooltip", am5.Tooltip.new(root, {}));
+        cursor.lineX.setAll({
+            stroke: am5.color("#fff"),
+        });
+
+        cursor.lineY.setAll({
+            visible: false
+        });
+
+        series1.set("stroke", am5.color(color));
 
 
         chartRef.current = chart;
@@ -72,9 +78,28 @@ export default function LineChart() {
         return () => {
             root.dispose();
         };
+    };
+
+
+    useLayoutEffect(() => {
+        let speed = createChart("speedChart", myData.speed, "Speed", "#0000ff");
+        let gear = createChart("gearChart", myData.gear, "Gear", "#0000ff");
+        let rpm = createChart("rpmChart", myData.rpm, "RPM", "#0000ff");
+
+        return () => {
+            speed();
+            gear();
+            rpm();
+        }
     }, []);
 
     return (
-        <div id="chartdiv" style={{ width: "100%", height: "500px" }}></div>
+        <>
+            <div id="speedChart" style={{ width: "100%", height: "500px", marginBottom:"50px" }}></div>
+        
+            <div id="gearChart" style={{ width: "100%", height: "250px", marginBottom:"50px" }}></div>
+
+            <div id="rpmChart" style={{ width: "100%", height: "250px", marginBottom:"50px" }}></div>
+        </>
     )
 }

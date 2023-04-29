@@ -4,7 +4,7 @@ import viteLogo from '/vite.svg'
 import LineChart from './Charts/LineChart'
 import './App.css'
 
-function App() {
+export default function App() {
 
   return (
     <div className="App">
@@ -13,5 +13,3 @@ function App() {
     </div>
   )
 }
-
-export default App
