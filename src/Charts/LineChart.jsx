@@ -53,6 +53,7 @@ export default function LineChart() {
         // Create Y-axis
         let yAxis = chart.yAxes.push(
             am5xy.ValueAxis.new(root, {
+                extraMax: 0,
                 renderer: am5xy.AxisRendererY.new(root, {})
             })
         );
@@ -60,6 +61,7 @@ export default function LineChart() {
         // Create X-Axis
         let xAxis = chart.xAxes.push(
             am5xy.ValueAxis.new(root, {
+                extraMax: 0,
                 renderer: am5xy.AxisRendererX.new(root, {}),
             })
         );
@@ -133,14 +135,6 @@ export default function LineChart() {
             idx++;
         }
 
-        // Create Y-axis
-        let yAxis = chart.yAxes.push(
-            am5xy.ValueAxis.new(root, {
-                renderer: am5xy.AxisRendererY.new(root, {}),
-                disabled: true,
-            })
-        );
-
         // Create X-Axis
         let xAxis = chart.xAxes.push(
             am5xy.ValueAxis.new(root, {
@@ -148,6 +142,15 @@ export default function LineChart() {
             })
         );
         xAxis.data.setAll(data);
+
+        // Create Y-axis
+        let yAxis = chart.yAxes.push(
+            am5xy.ValueAxis.new(root, {
+                renderer: am5xy.AxisRendererY.new(root, {}),
+                // syncWithAxis: xAxis,
+                disabled: true,
+            })
+        );
 
         // Create series
         let series1 = chart.series.push(
@@ -175,9 +178,7 @@ export default function LineChart() {
         };
     };
 
-    const comaprisonTrackMap = (id, track, speed1, speed2, color1, color2) => {
-        track = JSON.parse(JSON.stringify(track));
-
+    const comaprisonTrackMap = (id, track, speedData) => {
         let root = am5.Root.new(id);
 
         let chart = root.container.children.push(
@@ -187,44 +188,53 @@ export default function LineChart() {
             })
         );
 
-        let idx = 0;
-        for (let i of track) {
-            let speed = speed1[idx];
-            let color = color1;
+        track = JSON.parse(JSON.stringify(track));
+        let speed1 = speedData[0];
 
-            for (let j = 0; j < speed2.length; j++) {
-                if (speed2[j].X > speed.X) {
-                    color = speed2[j].Y > speed.Y ? color2 : color1;
-                    break;
+        for (let i in track) {
+            let X = speed1.data[i].X;
+            let speed = speed1.data[i];
+            let color = speed1.color;
+
+            for (let s = 1; s < speedData.length; s++) {
+                let speedTmp = speedData[s];
+
+                for (let j = 0; j < speedTmp.data.length; j++) {
+                    if (speedTmp.data[j].X > X) {
+                        if (speedTmp.data[j].Y > speed.Y) {
+                            speed = speedTmp.data[j];
+                            color = speedTmp.color;
+                        }
+                        break;
+                    }
                 }
             }
 
-            i.strokeSettings = {
+            track[i].strokeSettings = {
                 stroke: am5.color(color),
-            };
-            idx++;
+            }
         }
 
-        // Create Y-axis
-        let yAxis = chart.yAxes.push(
-            am5xy.ValueAxis.new(root, {
-                renderer: am5xy.AxisRendererY.new(root, {}),
-                disabled: true,
-            })
-        );
-
+        
         // Create X-Axis
         let xAxis = chart.xAxes.push(
             am5xy.ValueAxis.new(root, {
                 renderer: am5xy.AxisRendererX.new(root, { disabled: true }),
             })
-        );
-        xAxis.data.setAll(speed1);
-
+            );
+            
+            // Create Y-axis
+            let yAxis = chart.yAxes.push(
+                am5xy.ValueAxis.new(root, {
+                    renderer: am5xy.AxisRendererY.new(root, {}),
+                    syncWithAxis: xAxis,
+                    disabled: true,
+                })
+            );
         // Create series
-        let series1 = chart.series.push(
+        let series = chart.series.push(
             am5xy.SmoothedXYLineSeries.new(root, {
-                name: name,
+                // name: name,
                 xAxis: xAxis,
                 yAxis: yAxis,
                 valueYField: "Y",
@@ -233,10 +243,10 @@ export default function LineChart() {
                 fill: am5.color("#ff0000"),
             })
         );
-        series1.data.setAll(track);
+        series.data.setAll(track);
 
-        series1.strokes.template.setAll({
-            strokeWidth: 5,
+        series.strokes.template.setAll({
+            strokeWidth: 6.5,
             templateField: "strokeSettings",
         });
 
@@ -251,6 +261,7 @@ export default function LineChart() {
     useLayoutEffect(() => {
         let speed = createChart("speedChart", [
             { color: "#0000ff", name: "VER", data: myData.speed2 },
+            { color: "#ffff00", name: "RUS", data: myData.speed3 },
             { color: "#ff0000", name: "BOT", data: myData.speed },
         ]);
         let gear = createChart("gearChart", [
@@ -260,9 +271,13 @@ export default function LineChart() {
             { color: "#ff0000", name: "BOT", data: myData.rpm },
         ]);
 
+        let speedMap = createTrackChart("speedMapChart", myData.track_map, myData.speed, "TRACK", gradientArray);
 
-        let speedMap = createTrackChart("speedMapChart", myData.track_map, myData.throttle, "TRACK", gradientArray);
-        let compareMap = comaprisonTrackMap("compareMapChart", myData.track_map, myData.speed, myData.speed2, "#ff0000", "#1900ff");
+        let compareMap = comaprisonTrackMap("compareMapChart", myData.track_map, [
+            { color: "#ff0000", name: "BOT", data: myData.speed },
+            { color: "#0000ff", name: "VER", data: myData.speed2 },
+            { color: "#ffff00", name: "RUS", data: myData.speed3 },
+        ]);
 
         return () => {
             speed();
@@ -282,8 +297,10 @@ export default function LineChart() {
             <div id="rpmChart" style={{ width: "100%", height: "250px", marginBottom: "50px" }}></div>
 
             <div id="speedMapChart" style={{ width: "500px", height: "500px", marginBottom: "50px" }}></div>
+            {/* <div id="speedMapChart" style={{ width: "100%", aspectRatio: "1", marginBottom: "50px" }}></div> */}
 
-            <div id="compareMapChart" style={{ width: "500px", height: "500px", marginBottom: "50px" }}></div>
+            {/* <div id="compareMapChart" style={{ width: "500px", height: "500px", marginBottom: "50px" }}></div> */}
+            <div id="compareMapChart" style={{ width: "50%", aspectRatio: 1, marginBottom: "50px" }}></div>
         </>
     )
 }
