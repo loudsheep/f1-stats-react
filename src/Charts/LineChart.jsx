@@ -5,6 +5,7 @@ import { useLayoutEffect, useRef } from "react";
 // import { Gradient } from "javascript-color-gradient";
 import Gradient from "javascript-color-gradient";
 import myData from '../assets/data.json';
+import myData2 from '../assets/data2.json';
 
 export default function LineChart() {
     const chartRef = useRef(null);
@@ -18,16 +19,17 @@ export default function LineChart() {
         return (((value - min) * (newMax - newMin)) / (max - min)) + newMin
     };
 
-    const findDataMinAndMax = (data) => {
+    // by key
+    const findDataMinAndMax = (data, key = "Y") => {
         let max = Number.NEGATIVE_INFINITY;
         let min = Number.POSITIVE_INFINITY;
 
         for (let i of data) {
             if (i.Y < min) {
-                min = i.Y;
+                min = i[key];
             }
             if (i.Y > max) {
-                max = i.Y
+                max = i[key]
             }
         }
 
@@ -215,22 +217,116 @@ export default function LineChart() {
             }
         }
 
-        
+
         // Create X-Axis
         let xAxis = chart.xAxes.push(
             am5xy.ValueAxis.new(root, {
                 renderer: am5xy.AxisRendererX.new(root, { disabled: true }),
             })
-            );
-            
-            // Create Y-axis
-            let yAxis = chart.yAxes.push(
-                am5xy.ValueAxis.new(root, {
-                    renderer: am5xy.AxisRendererY.new(root, {}),
-                    syncWithAxis: xAxis,
-                    disabled: true,
-                })
-            );
+        );
+
+        // Create Y-axis
+        let yAxis = chart.yAxes.push(
+            am5xy.ValueAxis.new(root, {
+                renderer: am5xy.AxisRendererY.new(root, {}),
+                syncWithAxis: xAxis,
+                disabled: true,
+            })
+        );
+        // Create series
+        let series = chart.series.push(
+            am5xy.SmoothedXYLineSeries.new(root, {
+                // name: name,
+                xAxis: xAxis,
+                yAxis: yAxis,
+                valueYField: "Y",
+                valueXField: "X",
+                stroke: am5.color("#fff"),
+                fill: am5.color("#ff0000"),
+            })
+        );
+        series.data.setAll(track);
+
+        series.strokes.template.setAll({
+            strokeWidth: 6.5,
+            templateField: "strokeSettings",
+        });
+
+        chartRef.current = chart;
+
+        return () => {
+            root.dispose();
+        };
+    };
+
+    const comaprisonMiniSectorTimes = (id, track, timeData, miniSectorsCount) => {
+        let root = am5.Root.new(id);
+
+        let chart = root.container.children.push(
+            am5xy.XYChart.new(root, {
+                panY: false,
+                layout: root.verticalLayout,
+            })
+        );
+
+        let timeMinMax = findDataMinAndMax(timeData[0].data, "X");
+        let miniSectorDistance = timeMinMax.max / miniSectorsCount;
+
+        track = JSON.parse(JSON.stringify(track));
+
+        // let sectorTimes
+
+        let sectorColors = [];
+        for (let i = 0; i < miniSectorsCount + 1; i++) {
+            sectorColors.push({
+                color: "#000",
+                time: Number.POSITIVE_INFINITY,
+            })
+        }
+
+        for (let time of timeData) {
+            let sectorTmpTime = 0;
+            let currentSector = 0;
+            let sectors = [];
+            for (let i of time.data) {
+                let sec = Math.floor(i.X / miniSectorDistance);
+                if (sec != currentSector) {
+                    sectors.push(i.Y - sectorTmpTime);
+                    if (sectorColors[currentSector].time > i.Y - sectorTmpTime) {
+                        sectorColors[currentSector] = {
+                            color: time.color,
+                            time: i.Y - sectorTmpTime,
+                        }
+                    }
+                    sectorTmpTime = i.Y;
+                    currentSector = sec;
+                }
+            }
+        }
+
+        for (let i in track) {
+            let sec = Math.floor(timeData[0].data[i].X / miniSectorDistance);
+
+            track[i].strokeSettings = {
+                stroke: am5.color(sectorColors[sec].color),
+            }
+        }
+
+        // Create X-Axis
+        let xAxis = chart.xAxes.push(
+            am5xy.ValueAxis.new(root, {
+                renderer: am5xy.AxisRendererX.new(root, { disabled: true }),
+            })
+        );
+
+        // Create Y-axis
+        let yAxis = chart.yAxes.push(
+            am5xy.ValueAxis.new(root, {
+                renderer: am5xy.AxisRendererY.new(root, {}),
+                syncWithAxis: xAxis,
+                disabled: true,
+            })
+        );
         // Create series
         let series = chart.series.push(
             am5xy.SmoothedXYLineSeries.new(root, {
@@ -260,24 +356,29 @@ export default function LineChart() {
 
     useLayoutEffect(() => {
         let speed = createChart("speedChart", [
-            { color: "#0000ff", name: "VER", data: myData.speed2 },
-            { color: "#ffff00", name: "RUS", data: myData.speed3 },
-            { color: "#ff0000", name: "BOT", data: myData.speed },
+            { color: "#0000ff", name: "VER", data: myData.speed },
+            { color: "#c40000", name: "LEC", data: myData2.speed },
         ]);
         let gear = createChart("gearChart", [
-            { color: "#ff0000", name: "BOT", data: myData.gear },
+            { color: "#0000ff", name: "VER", data: myData.gear },
+            { color: "#c40000", name: "LEC", data: myData2.gear },
         ]);
         let rpm = createChart("rpmChart", [
-            { color: "#ff0000", name: "BOT", data: myData.rpm },
+            { color: "#0000ff", name: "VER", data: myData.rpm },
+            { color: "#c40000", name: "LEC", data: myData2.rpm },
         ]);
 
         let speedMap = createTrackChart("speedMapChart", myData.track_map, myData.speed, "TRACK", gradientArray);
 
         let compareMap = comaprisonTrackMap("compareMapChart", myData.track_map, [
-            { color: "#ff0000", name: "BOT", data: myData.speed },
-            { color: "#0000ff", name: "VER", data: myData.speed2 },
-            { color: "#ffff00", name: "RUS", data: myData.speed3 },
+            { color: "#0000ff", name: "VER", data: myData.speed },
+            { color: "#c40000", name: "LEC", data: myData2.speed },
         ]);
+
+        let sectorsMap = comaprisonMiniSectorTimes("sectorsChart", myData.track_map, [
+            { color: "#0000ff", name: "VER", data: myData.time },
+            { color: "#c40000", name: "LEC", data: myData2.time },
+        ], 20);
 
         return () => {
             speed();
@@ -285,6 +386,7 @@ export default function LineChart() {
             rpm();
             speedMap();
             compareMap();
+            sectorsMap();
         }
     }, []);
 
@@ -301,6 +403,8 @@ export default function LineChart() {
 
             {/* <div id="compareMapChart" style={{ width: "500px", height: "500px", marginBottom: "50px" }}></div> */}
             <div id="compareMapChart" style={{ width: "50%", aspectRatio: 1, marginBottom: "50px" }}></div>
+
+            <div id="sectorsChart" style={{ width: "50%", aspectRatio: 1, marginBottom: "50px" }}></div>
         </>
     )
 }
