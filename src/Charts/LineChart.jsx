@@ -10,18 +10,34 @@ export default function LineChart() {
     const chartRef = useRef(null);
 
     const gradientArray = new Gradient()
-        .setColorGradient("##1900ff", "#15ff00")
-        .setMidpoint(330)
-        .getColors();
+        .setColorGradient('#003399', '#0055bb', '#0077cc', '#0099dd', '#00bbff', '#ffcc00', '#ff9900', '#ff6600', '#ff3300', '#ff0000')
+    // .setMidpoint(330)
+    // .getColors();
 
-    console.log(gradientArray);
-
-    // TODO MIN-MAX to NewMIN-NewMAX
     const mapValue = (value, min, max, newMin, newMax) => {
         return (((value - min) * (newMax - newMin)) / (max - min)) + newMin
     };
 
-    const createChart = (id, data, name, color) => {
+    const findDataMinAndMax = (data) => {
+        let max = Number.NEGATIVE_INFINITY;
+        let min = Number.POSITIVE_INFINITY;
+
+        for (let i of data) {
+            if (i.Y < min) {
+                min = i.Y;
+            }
+            if (i.Y > max) {
+                max = i.Y
+            }
+        }
+
+        return {
+            min: min,
+            max: max,
+        };
+    };
+
+    const createChart = (id, data) => {
         let root = am5.Root.new(id);
 
         root.interfaceColors.set("grid", am5.color("#fff"));
@@ -47,22 +63,25 @@ export default function LineChart() {
                 renderer: am5xy.AxisRendererX.new(root, {}),
             })
         );
-        xAxis.data.setAll(data);
+        // xAxis.data.setAll(data);
 
-        // Create series
-        let series1 = chart.series.push(
-            am5xy.LineSeries.new(root, {
-                name: name,
-                xAxis: xAxis,
-                yAxis: yAxis,
-                valueYField: "Y",
-                valueXField: "X",
-                tooltip: am5.Tooltip.new(root, {
-                    labelText: "[bold]{valueY}"
+        for (let i of data) {
+            let series = chart.series.push(
+                am5xy.LineSeries.new(root, {
+                    name: i.name,
+                    xAxis: xAxis,
+                    yAxis: yAxis,
+                    valueYField: "Y",
+                    valueXField: "X",
+                    tooltip: am5.Tooltip.new(root, {
+                        labelText: "[bold]{valueY}",
+                    })
                 })
-            })
-        );
-        series1.data.setAll(data);
+            );
+
+            series.data.setAll(i.data);
+            series.set("stroke", am5.color(i.color));
+        }
 
 
         // Add legend
@@ -84,7 +103,6 @@ export default function LineChart() {
             visible: false
         });
 
-        series1.set("stroke", am5.color(color));
 
 
         chartRef.current = chart;
@@ -97,6 +115,9 @@ export default function LineChart() {
     const createTrackChart = (id, track, data, name, color) => {
         let root = am5.Root.new(id);
 
+        let minMax = findDataMinAndMax(data);
+        let gradient = color.setMidpoint(minMax.max - minMax.min + 1).getColors();
+
         let chart = root.container.children.push(
             am5xy.XYChart.new(root, {
                 panY: false,
@@ -107,7 +128,7 @@ export default function LineChart() {
         let idx = 0;
         for (let i of track) {
             i.strokeSettings = {
-                stroke: am5.color(gradientArray[data[idx].Y]),
+                stroke: am5.color(gradient[data[idx].Y - minMax.min]),
             };
             idx++;
         }
@@ -155,6 +176,8 @@ export default function LineChart() {
     };
 
     const comaprisonTrackMap = (id, track, speed1, speed2, color1, color2) => {
+        track = JSON.parse(JSON.stringify(track));
+
         let root = am5.Root.new(id);
 
         let chart = root.container.children.push(
@@ -169,8 +192,8 @@ export default function LineChart() {
             let speed = speed1[idx];
             let color = color1;
 
-            for(let j=0; j<speed2.length; j++) {
-                if(speed2[j].X > speed.X) {
+            for (let j = 0; j < speed2.length; j++) {
+                if (speed2[j].X > speed.X) {
                     color = speed2[j].Y > speed.Y ? color2 : color1;
                     break;
                 }
@@ -226,10 +249,19 @@ export default function LineChart() {
 
 
     useLayoutEffect(() => {
-        let speed = createChart("speedChart", myData.speed, "Speed", "#0000ff");
-        let gear = createChart("gearChart", myData.gear, "Gear", "#0000ff");
-        let rpm = createChart("rpmChart", myData.rpm, "RPM", "#0000ff");
-        let speedMap = createTrackChart("speedMapChart", myData.track_map, myData.speed, "TRACK", "#0000ff");
+        let speed = createChart("speedChart", [
+            { color: "#0000ff", name: "VER", data: myData.speed2 },
+            { color: "#ff0000", name: "BOT", data: myData.speed },
+        ]);
+        let gear = createChart("gearChart", [
+            { color: "#ff0000", name: "BOT", data: myData.gear },
+        ]);
+        let rpm = createChart("rpmChart", [
+            { color: "#ff0000", name: "BOT", data: myData.rpm },
+        ]);
+
+
+        let speedMap = createTrackChart("speedMapChart", myData.track_map, myData.throttle, "TRACK", gradientArray);
         let compareMap = comaprisonTrackMap("compareMapChart", myData.track_map, myData.speed, myData.speed2, "#ff0000", "#1900ff");
 
         return () => {
