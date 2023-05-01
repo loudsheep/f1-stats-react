@@ -107,10 +107,6 @@ export default function LineChart() {
             visible: false
         });
 
-
-
-        chartRef.current = chart;
-
         return () => {
             root.dispose();
         };
@@ -140,7 +136,9 @@ export default function LineChart() {
         // Create X-Axis
         let xAxis = chart.xAxes.push(
             am5xy.ValueAxis.new(root, {
-                renderer: am5xy.AxisRendererX.new(root, { disabled: true }),
+                renderer: am5xy.AxisRendererX.new(root, {
+                    disabled: true,
+                }),
             })
         );
         xAxis.data.setAll(data);
@@ -148,8 +146,10 @@ export default function LineChart() {
         // Create Y-axis
         let yAxis = chart.yAxes.push(
             am5xy.ValueAxis.new(root, {
-                renderer: am5xy.AxisRendererY.new(root, {}),
-                // syncWithAxis: xAxis,
+                renderer: am5xy.AxisRendererY.new(root, {
+                    disabled: true
+                }),
+                syncWithAxis: xAxis,
                 disabled: true,
             })
         );
@@ -172,8 +172,6 @@ export default function LineChart() {
             strokeWidth: 5,
             templateField: "strokeSettings",
         });
-
-        chartRef.current = chart;
 
         return () => {
             root.dispose();
@@ -236,7 +234,6 @@ export default function LineChart() {
         // Create series
         let series = chart.series.push(
             am5xy.SmoothedXYLineSeries.new(root, {
-                // name: name,
                 xAxis: xAxis,
                 yAxis: yAxis,
                 valueYField: "Y",
@@ -252,7 +249,6 @@ export default function LineChart() {
             templateField: "strokeSettings",
         });
 
-        chartRef.current = chart;
 
         return () => {
             root.dispose();
@@ -346,8 +342,6 @@ export default function LineChart() {
             templateField: "strokeSettings",
         });
 
-        chartRef.current = chart;
-
         return () => {
             root.dispose();
         };
@@ -398,7 +392,7 @@ export default function LineChart() {
 
             <div id="rpmChart" style={{ width: "100%", height: "250px", marginBottom: "50px" }}></div>
 
-            <div id="speedMapChart" style={{ width: "500px", height: "500px", marginBottom: "50px" }}></div>
+            <div id="speedMapChart" style={{ width: "50%", aspectRatio: 1, marginBottom: "50px" }}></div>
             {/* <div id="speedMapChart" style={{ width: "100%", aspectRatio: "1", marginBottom: "50px" }}></div> */}
 
             {/* <div id="compareMapChart" style={{ width: "500px", height: "500px", marginBottom: "50px" }}></div> */}
