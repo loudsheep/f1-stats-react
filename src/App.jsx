@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import reactLogo from './assets/react.svg';
 import LineChart from './Charts/LineChart';
+import DriverLapTimesChart from './Charts/DriverLapTimesChart';
 import Schedule from './Schedule/Schedule';
 import './App.css';
 import f1Tire from './assets/F1_tire_Pirelli_PZero_Red.svg.png'
@@ -10,7 +11,12 @@ export default function App() {
   const [season, setSeason] = useState(null);
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedSession, setSelectedSession] = useState(null);
   const [results, setResults] = useState(null);
+
+  const [driverLaps, setDriverLaps] = useState(null);
+  const [driverName, setDriverName] = useState(null);
+  const [driverColor, setDriverColor] = useState(null);
 
   const getEventData = (e) => {
     let year = e.target.value;
@@ -45,8 +51,8 @@ export default function App() {
     if (session == "") return;
 
     setResults("loading");
+    setSelectedSession(session);
 
-    console.log("SELECTED SESSION " + session);
     (async () => {
       const response = await fetch(
         `http://localhost:8000/results?year=${season}&event=${events[selectedEvent].RoundNumber}&session=${session}`
@@ -55,6 +61,24 @@ export default function App() {
       setResults(parsed.data);
     })();
   };
+
+  const selectDriver = (driver, color) => {
+    setDriverLaps(null);
+    setDriverName(null);
+    setDriverColor(null);
+
+    (async () => {
+      const response = await fetch(
+        `http://localhost:8000/laps?year=${season}&event=${events[selectedEvent].RoundNumber}&session=${selectedSession}&driver=${driver}`
+      );
+      const parsed = await response.json();
+      setDriverLaps(parsed.data);
+      setDriverName(driver);
+      setDriverColor(color);
+
+      console.log(parsed.data);
+    })();
+  }
 
   return (
     <div className="App">
@@ -122,7 +146,7 @@ export default function App() {
             </tr>
 
             {results.map((value) => (
-              <tr style={{ color: '#' + value.TeamColor }}>
+              <tr style={{ color: '#' + value.TeamColor }} onClick={() => selectDriver(value.Abbreviation, value.TeamColor)}>
                 <td>{value.Position}</td>
                 <td>{value.FullName}</td>
                 <td>{value.TeamName}</td>
@@ -136,6 +160,9 @@ export default function App() {
 
       {/* <h2>Australian Grand Prix 2023 - Qualifying - P1 - VER 1:16.732</h2> */}
       {/* <LineChart></LineChart> */}
+      {driverLaps !== null && (
+        <DriverLapTimesChart lapTimes={driverLaps} driver={driverName} color={"#" + driverColor}></DriverLapTimesChart>
+      )}
     </div>
   )
 }

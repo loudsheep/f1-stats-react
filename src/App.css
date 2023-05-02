@@ -17,7 +17,7 @@
   /* align-items: center; */
 }
 
-.select > * {
+.select>* {
   margin: 0 1rem;
 }
 
@@ -33,6 +33,10 @@ td, th {
   border-top: 1px solid rgb(49, 49, 49);
 }
 
+tr {
+  cursor: pointer;
+}
+
 @keyframes rotating {
   from {
     -ms-transform: rotate(0deg);
@@ -41,6 +45,7 @@ td, th {
     -o-transform: rotate(0deg);
     transform: rotate(0deg);
   }
+
   to {
     -ms-transform: rotate(360deg);
     -moz-transform: rotate(360deg);
