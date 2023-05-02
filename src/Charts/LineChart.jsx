@@ -1,8 +1,9 @@
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
+import * as am5plugins_exporting from "@amcharts/amcharts5/plugins/exporting";
 import { useLayoutEffect, useRef } from "react";
-// import { Gradient } from "javascript-color-gradient";
+import './LineChart.css';
 import Gradient from "javascript-color-gradient";
 import myData from '../assets/data.json';
 import myData2 from '../assets/data2.json';
@@ -105,6 +106,16 @@ export default function LineChart() {
 
         cursor.lineY.setAll({
             visible: false
+        });
+
+        let exporting = am5plugins_exporting.Exporting.new(root, {
+            menu: am5plugins_exporting.ExportingMenu.new(root, {
+
+            }),
+            pngOptions: {
+                quality: 1,
+                maintainPixelRatio: true
+            }
         });
 
         return () => {

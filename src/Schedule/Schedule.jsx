@@ -20,11 +20,10 @@ export default function Schedule() {
                 <> Loading... </>
             ) : (
                 <>
-                    {data.data.map((val) => (
-                        <>
-                            <h3>{val.RoundNumber}. {val.OfficialEventName}</h3>
-                        </>
-                    ))}
+                    <div style={{border: "1px solid white", borderRadius: "8px", padding: "10px"}}>
+                        <h3>Next round: {data.data[0].OfficialEventName}</h3>
+                        {new Date(data.data[0].EventDate).toDateString()}
+                    </div>
                 </>
             )}
         </>
