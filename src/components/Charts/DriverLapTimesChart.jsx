@@ -4,7 +4,7 @@ import * as am5plugins_exporting from "@amcharts/amcharts5/plugins/exporting";
 import { useLayoutEffect, useRef } from "react";
 import './DriverLapTimesChart.css';
 
-export default function LineChart({ lapTimes = [], driver = "", color = "#ffffff" }) {
+export default function DriverLapTimesChart({ lapTimes = [], driver = "", color = "#ffffff" }) {
 
     const createChart = (id, data) => {
         let root = am5.Root.new(id);

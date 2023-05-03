@@ -8,11 +8,11 @@
   <path fill="var(--ci-primary-color, #000000)" d="M297.222,335.1l69.2-144.173-28.85-13.848L268.389,321.214A64.141,64.141,0,1,0,297.222,335.1ZM256,416a32,32,0,1,1,32-32A32.036,32.036,0,0,1,256,416Z" class="ci-primary"/>
 
   <style>
-		path {
+		path, rect {
 			fill: #0F145B;
 		}
 		@media ( prefers-color-scheme: dark ) {
-			path {
+			path, rect {
 				fill: #fff;
 			}
 		}

@@ -146,9 +146,8 @@ export default function LineChart() {
         // Create X-Axis
         let xAxis = chart.xAxes.push(
             am5xy.ValueAxis.new(root, {
-                renderer: am5xy.AxisRendererX.new(root, {
-                    disabled: true,
-                }),
+                renderer: am5xy.AxisRendererX.new(root, {}),
+                visible: false,
             })
         );
         xAxis.data.setAll(data);
@@ -156,11 +155,9 @@ export default function LineChart() {
         // Create Y-axis
         let yAxis = chart.yAxes.push(
             am5xy.ValueAxis.new(root, {
-                renderer: am5xy.AxisRendererY.new(root, {
-                    disabled: true
-                }),
+                renderer: am5xy.AxisRendererY.new(root, {}),
+                visible: false,
                 syncWithAxis: xAxis,
-                disabled: true,
             })
         );
 
@@ -181,6 +178,16 @@ export default function LineChart() {
         series1.strokes.template.setAll({
             strokeWidth: 5,
             templateField: "strokeSettings",
+        });
+
+        let exporting = am5plugins_exporting.Exporting.new(root, {
+            menu: am5plugins_exporting.ExportingMenu.new(root, {
+
+            }),
+            pngOptions: {
+                quality: 1,
+                maintainPixelRatio: true
+            }
         });
 
         return () => {
@@ -229,7 +236,8 @@ export default function LineChart() {
         // Create X-Axis
         let xAxis = chart.xAxes.push(
             am5xy.ValueAxis.new(root, {
-                renderer: am5xy.AxisRendererX.new(root, { disabled: true }),
+                renderer: am5xy.AxisRendererX.new(root, {}),
+                visible: false,
             })
         );
 
@@ -238,7 +246,7 @@ export default function LineChart() {
             am5xy.ValueAxis.new(root, {
                 renderer: am5xy.AxisRendererY.new(root, {}),
                 syncWithAxis: xAxis,
-                disabled: true,
+                visible: false,
             })
         );
         // Create series
@@ -321,7 +329,8 @@ export default function LineChart() {
         // Create X-Axis
         let xAxis = chart.xAxes.push(
             am5xy.ValueAxis.new(root, {
-                renderer: am5xy.AxisRendererX.new(root, { disabled: true }),
+                renderer: am5xy.AxisRendererX.new(root, {}),
+                visible: false,
             })
         );
 
@@ -330,7 +339,7 @@ export default function LineChart() {
             am5xy.ValueAxis.new(root, {
                 renderer: am5xy.AxisRendererY.new(root, {}),
                 syncWithAxis: xAxis,
-                disabled: true,
+                visible: false,
             })
         );
         // Create series
@@ -396,19 +405,19 @@ export default function LineChart() {
 
     return (
         <>
-            <div id="speedChart" style={{ width: "100%", height: "500px", marginBottom: "50px" }}></div>
+            <div id="speedChart" className="chart" style={{ width: "100%", height: "500px", marginBottom: "50px" }}></div>
 
-            <div id="gearChart" style={{ width: "100%", height: "250px", marginBottom: "50px" }}></div>
+            <div id="gearChart" className="chart" style={{ width: "100%", height: "250px", marginBottom: "50px" }}></div>
 
-            <div id="rpmChart" style={{ width: "100%", height: "250px", marginBottom: "50px" }}></div>
+            <div id="rpmChart" className="chart" style={{ width: "100%", height: "250px", marginBottom: "50px" }}></div>
 
-            <div id="speedMapChart" style={{ width: "50%", aspectRatio: 1, marginBottom: "50px" }}></div>
-            {/* <div id="speedMapChart" style={{ width: "100%", aspectRatio: "1", marginBottom: "50px" }}></div> */}
+            <div id="speedMapChart" className="chart" style={{ width: "600px", aspectRatio: 1, marginBottom: "50px" }}></div>
+            {/* <div id="speedMapChart" className="chart"  style={{ width: "100%", aspectRatio: "1", marginBottom: "50px" }}></div> */}
 
-            {/* <div id="compareMapChart" style={{ width: "500px", height: "500px", marginBottom: "50px" }}></div> */}
-            <div id="compareMapChart" style={{ width: "50%", aspectRatio: 1, marginBottom: "50px" }}></div>
+            {/* <div id="compareMapChart" className="chart"  style={{ width: "500px", height: "500px", marginBottom: "50px" }}></div> */}
+            <div id="compareMapChart" className="chart" style={{ width: "50%", aspectRatio: 1, marginBottom: "50px" }}></div>
 
-            <div id="sectorsChart" style={{ width: "50%", aspectRatio: 1, marginBottom: "50px" }}></div>
+            <div id="sectorsChart" className="chart" style={{ width: "50%", aspectRatio: 1, marginBottom: "50px" }}></div>
         </>
     )
 }
