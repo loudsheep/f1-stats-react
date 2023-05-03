@@ -1,0 +1,67 @@
+#root {
+    width: 100%;
+    margin: 0 auto;
+    min-height: 90vh;
+    padding: 2rem;
+    text-align: center;
+}
+
+.session-selector {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* align-items: center; */
+}
+
+.select>* {
+    margin: 0 1rem;
+}
+
+table {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+}
+
+td, th {
+    border-bottom: 1px solid rgb(49, 49, 49);
+    border-top: 1px solid rgb(49, 49, 49);
+}
+
+tr {
+    cursor: pointer;
+}
+
+@keyframes rotating {
+    from {
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    to {
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+.loading-tire {
+    max-width: 100px;
+    margin: 30px;
+
+    -webkit-animation: rotating 2s linear infinite;
+    -moz-animation: rotating 2s linear infinite;
+    -ms-animation: rotating 2s linear infinite;
+    -o-animation: rotating 2s linear infinite;
+    animation: rotating 2s linear infinite;
+}

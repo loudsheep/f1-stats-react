@@ -5,11 +5,10 @@ import * as am5plugins_exporting from "@amcharts/amcharts5/plugins/exporting";
 import { useLayoutEffect, useRef } from "react";
 import './LineChart.css';
 import Gradient from "javascript-color-gradient";
-import myData from '../assets/data.json';
-import myData2 from '../assets/data2.json';
+import myData from '../../assets/testData1.json';
+import myData2 from '../../assets/testData2.json';
 
 export default function LineChart() {
-    const chartRef = useRef(null);
 
     const gradientArray = new Gradient()
         .setColorGradient('#003399', '#0055bb', '#0077cc', '#0099dd', '#00bbff', '#ffcc00', '#ff9900', '#ff6600', '#ff3300', '#ff0000')
