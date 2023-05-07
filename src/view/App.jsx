@@ -4,6 +4,7 @@ import { Routes, Route, NavLink, } from "react-router-dom";
 import Results from './Results';
 import SeasonHeatMap from './SeasonHeatMap';
 import LineChart from '../components/Charts/LineChart';
+import PossibleWinners from './PossibleWinners';
 
 export default function App() {
   return (
@@ -20,6 +21,19 @@ export default function App() {
           }
         >
           Results
+        </NavLink>
+
+        <NavLink
+          to={`/winners`}
+          className={({ isActive, isPending }) =>
+            isActive
+              ? "active"
+              : isPending
+                ? "pending"
+                : ""
+          }
+        >
+          Possible WDC winners
         </NavLink>
 
         <NavLink
@@ -51,6 +65,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<h1>Hello world</h1>} />
         <Route path="/results" element={<Results />} />
+        <Route path="/winners" element={<PossibleWinners />} />
         <Route path="/season-standings" element={<SeasonHeatMap />} />
         <Route path="/demo" element={<LineChart />} />
       </Routes>

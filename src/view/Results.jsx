@@ -28,6 +28,7 @@ export default function Results() {
             setEvents(parsed.data);
 
             setSelectedEvent(null);
+            setSelectedSession(null);
         })();
     };
 

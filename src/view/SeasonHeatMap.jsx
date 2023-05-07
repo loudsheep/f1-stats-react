@@ -100,7 +100,19 @@ export default function SeasonHeatMap() {
 
         var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
             renderer: xRenderer,
-            categoryField: "race"
+            categoryField: "race",
+            // bullet: function (root, axis, dataItem) {
+            //     return am5xy.AxisBullet.new(root, {
+            //         location: 0.5,
+            //         sprite: am5.Picture.new(root, {
+            //             width: 24,
+            //             height: 24,
+            //             centerY: am5.p50,
+            //             centerX: am5.p50,
+            //             src: "https://cdn-icons-png.flaticon.com/512/555/555526.png"
+            //         })
+            //     });
+            // }
         }));
 
         var series = chart.series.push(am5xy.ColumnSeries.new(root, {
@@ -179,6 +191,7 @@ export default function SeasonHeatMap() {
                 <option value="2021">2021</option>
                 <option value="2020">2020</option>
                 <option value="2019">2019</option>
+                <option value="2018">2018</option>
             </select>
 
             {data === null && (
@@ -187,7 +200,7 @@ export default function SeasonHeatMap() {
                 </div>
             )}
 
-            <div id="chartdiv" style={{ width: "100%", height: "800px" }}></div>
+            <div id="chartdiv" style={{ width: "60%", height: "800px", margin: "0 auto" }}></div>
         </div >
     );
 }
