@@ -27,39 +27,16 @@ export default function SeasonHeatMap() {
         root.interfaceColors.set("grid", am5.color("#fff"));
         root.interfaceColors.set("text", am5.color("#fff"));
 
-        let data = [];
-        for (let i of Object.keys(heatMapData)) {
-            for (let j of Object.keys(heatMapData[i])) {
-                data.push({
-                    race: i,
-                    driver: j,
-                    value: heatMapData[i][j],
-                });
-            }
-        }
-
-        let xData = [];
-        for (let i of Object.keys(heatMapData)) {
-            xData.push({
-                race: i,
-            });
-        }
         let yData = [];
-        for (let i of data) {
-            if (yData.indexOf(i.driver) < 0) {
-                yData.push(i.driver);
-            }
-        }
-        for (let i = 0; i < yData.length; i++) {
-            yData[i] = {
-                driver: yData[i],
-            }
+        for (let driver of heatMapData.drivers) {
+            yData.push({
+                driver: driver,
+            });
         }
 
         root.setThemes([
             am5themes_Animated.new(root)
         ]);
-
 
         var chart = root.container.children.push(am5xy.XYChart.new(root, {
             panX: false,
@@ -68,7 +45,6 @@ export default function SeasonHeatMap() {
             wheelY: "none",
             layout: root.verticalLayout
         }));
-
 
         var yRenderer = am5xy.AxisRendererY.new(root, {
             visible: false,
@@ -90,29 +66,23 @@ export default function SeasonHeatMap() {
             opposite: true
         });
 
-        xRenderer.labels.template.setAll({
-            rotation: -45,
-            centerX: am5.p0,
-            centerY: am5.p100,
-        });
-
         xRenderer.grid.template.set("visible", false);
 
         var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
             renderer: xRenderer,
-            categoryField: "race",
-            // bullet: function (root, axis, dataItem) {
-            //     return am5xy.AxisBullet.new(root, {
-            //         location: 0.5,
-            //         sprite: am5.Picture.new(root, {
-            //             width: 24,
-            //             height: 24,
-            //             centerY: am5.p50,
-            //             centerX: am5.p50,
-            //             src: "https://cdn-icons-png.flaticon.com/512/555/555526.png"
-            //         })
-            //     });
-            // }
+            categoryField: "raceCode",
+            bullet: function (root, axis, dataItem) {
+                return am5xy.AxisBullet.new(root, {
+                    location: 0.5,
+                    sprite: am5.Picture.new(root, {
+                        width: 25,
+                        // height: 24,
+                        centerY: am5.percent(75),
+                        centerX: am5.p50,
+                        src: "https://flagcdn.com/w80/" + dataItem.dataContext.countryCode.toLowerCase() + ".png"
+                    })
+                });
+            }
         }));
 
         var series = chart.series.push(am5xy.ColumnSeries.new(root, {
@@ -123,7 +93,7 @@ export default function SeasonHeatMap() {
             yAxis: yAxis,
             categoryXField: "race",
             categoryYField: "driver",
-            valueField: "value"
+            valueField: "points",
         }));
 
         series.columns.template.setAll({
@@ -155,8 +125,9 @@ export default function SeasonHeatMap() {
             key: "fill"
         }]);
 
-        series.data.setAll(data);
-        xAxis.data.setAll(xData);
+
+        series.data.setAll(heatMapData.chartData);
+        xAxis.data.setAll(heatMapData.races);
         yAxis.data.setAll(yData);
 
         return () => {
@@ -200,7 +171,7 @@ export default function SeasonHeatMap() {
                 </div>
             )}
 
-            <div id="chartdiv" style={{ width: "60%", height: "800px", margin: "0 auto" }}></div>
+            <div id="chartdiv" style={{ width: "60%", height: "800px", margin: "10px auto 0 auto" }}></div>
         </div >
     );
 }
