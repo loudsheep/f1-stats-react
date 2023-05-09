@@ -6,6 +6,37 @@ import './DriverLapTimesChart.css';
 
 export default function DriverLapTimesChart({ lapTimes = [], driver = "", color = "#ffffff" }) {
 
+    const getCompoundImage = (name) => {
+        if (name == "SOFT") {
+            return "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/F1_tire_Pirelli_PZero_Red.svg/120px-F1_tire_Pirelli_PZero_Red.svg.png";
+        } else if (name == "MEDIUM") {
+            return "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/F1_tire_Pirelli_PZero_Yellow.svg/120px-F1_tire_Pirelli_PZero_Yellow.svg.png";
+        } else if (name == "HARD") {
+            return "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/F1_tire_Pirelli_PZero_White.svg/120px-F1_tire_Pirelli_PZero_White.svg.png";
+        } else if (name == "WET") {
+            return "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/F1_tire_Pirelli_Cinturato_Blue.svg/120px-F1_tire_Pirelli_Cinturato_Blue.svg.png";
+        } else if (name == "INTERMEDIATE") {
+            return "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/F1_tire_Pirelli_Cinturato_Green.svg/120px-F1_tire_Pirelli_Cinturato_Green.svg.png";
+        }
+        return "https://flagcdn.com/w80/pl.png";
+    };
+
+    const getCompoundColor = (name) => {
+        if (name == "SOFT") {
+            return am5.color("#ff0000");
+        } else if (name == "MEDIUM") {
+            return am5.color("#fbff00");
+        } else if (name == "HARD") {
+            return am5.color("#ffffff");
+        } else if (name == "WET") {
+            return am5.color("#0004d6");
+        } else if (name == "INTERMEDIATE") {
+            return am5.color("#1a9c00");
+        }
+        
+        return am5.color("#000000");
+    };
+
     const createChart = (id, data) => {
         let root = am5.Root.new(id);
 
@@ -23,8 +54,8 @@ export default function DriverLapTimesChart({ lapTimes = [], driver = "", color 
         let yAxis = chart.yAxes.push(
             am5xy.ValueAxis.new(root, {
                 extraMax: 0,
-                min: 0,
-                renderer: am5xy.AxisRendererY.new(root, {})
+                // min: 0,
+                renderer: am5xy.AxisRendererY.new(root, {}),
             })
         );
 
@@ -46,9 +77,26 @@ export default function DriverLapTimesChart({ lapTimes = [], driver = "", color 
                     valueXField: "LapNumber",
                     tooltip: am5.Tooltip.new(root, {
                         labelText: "[bold]Lap {valueX} - {valueY}",
-                    })
+                    }),
+
                 })
             );
+
+            series.bullets.push(function (root, series, dataItem) {
+                return am5.Bullet.new(root, {
+                    sprite: am5.Circle.new(root, {
+                        radius: 6,
+                        fill: getCompoundColor(dataItem.dataContext.Compound)
+                    })
+                    // sprite: am5.Picture.new(root, {
+                    //     width: 20,
+                    //     height: 20,
+                    //     centerY: am5.percent(75),
+                    //     centerX: am5.p50,
+                    //     src: getCompoundImage(dataItem.dataContext.Compound),
+                    // })
+                });
+            });
 
             series.data.setAll(i.data);
             series.set("stroke", am5.color(i.color));
@@ -60,12 +108,7 @@ export default function DriverLapTimesChart({ lapTimes = [], driver = "", color 
         legend.data.setAll(chart.series.values);
 
         // Add cursor
-        let cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
-            // snapToSeries: [series1],
-            // snapToSeriesBy: "x",
-            // stroke: am5.color('#ff0000'),
-        }));
-
+        let cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
         cursor.lineX.setAll({
             stroke: am5.color("#fff"),
         });
