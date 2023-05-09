@@ -14,7 +14,7 @@ export default function SeasonHeatMap() {
 
         (async () => {
             const response = await fetch(
-                `http://localhost:8000/standings?year=${season}`
+                `http://${window.backendServerAddress}:8000/standings?year=${season}`
             );
             const parsed = await response.json();
             setData(parsed.data);
