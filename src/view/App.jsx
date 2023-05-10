@@ -63,7 +63,7 @@ export default function App() {
         </NavLink>
       </nav>
       <Routes>
-        <Route path="/" element={<h1>Hello world</h1>} />
+        <Route path="/" element={<h1>Hello World! Page</h1>} />
         <Route path="/results" element={<Results />} />
         <Route path="/winners" element={<PossibleWinners />} />
         <Route path="/season-standings" element={<SeasonHeatMap />} />
