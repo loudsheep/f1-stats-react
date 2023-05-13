@@ -156,11 +156,14 @@ export default function SeasonHeatMap() {
         if (data !== null) {
             let colors = {};
             if (category == "points") {
-                colors.min = "#c6c7ef";
-                colors.max = "#0a086b";
+                colors.min = "#b9d4ff";
+                colors.max = "#09375a";
             } else if (category == "positions") {
                 colors.min = "#ff2414";
                 colors.max = "#231fff";
+            } else if (category == "qualifying") {
+                colors.min = "#2a5779";
+                colors.max = "#b9d4ff";
             }
 
             let chart = createHeatMapChart("chartdiv", data, colors);
@@ -177,6 +180,7 @@ export default function SeasonHeatMap() {
             <select name="" id="" onChange={changeCategory}>
                 <option value="points" selected>Points After Each Race</option>
                 <option value="positions">Race Finish Position</option>
+                <option value="qualifying">Qualifying Position</option>
             </select>
 
             Select season to show data:
