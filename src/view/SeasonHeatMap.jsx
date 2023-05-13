@@ -7,21 +7,24 @@ import f1Tire from '../assets/F1_tire_Pirelli_PZero_Red.svg.png'
 
 export default function SeasonHeatMap() {
     const [data, setData] = useState(null);
+    const [season, setSeason] = useState(2023);
+    const [category, setCategory] = useState("points");
 
-    const getSeasonData = (season) => {
+    const getSeasonData = (category, season) => {
+        console.log(category, season);
         if (season == "") return;
         setData(null);
 
         (async () => {
             const response = await fetch(
-                `http://${window.backendServerAddress}:8000/standings?year=${season}`
+                `http://${window.backendServerAddress}:8000/heatmap?year=${season}&category=${category}`
             );
             const parsed = await response.json();
             setData(parsed.data);
         })();
     };
 
-    const createHeatMapChart = (id, heatMapData) => {
+    const createHeatMapChart = (id, heatMapData, colors) => {
         var root = am5.Root.new(id);
 
         root.interfaceColors.set("grid", am5.color("#fff"));
@@ -93,7 +96,7 @@ export default function SeasonHeatMap() {
             yAxis: yAxis,
             categoryXField: "race",
             categoryYField: "driver",
-            valueField: "points",
+            valueField: "value",
         }));
 
         series.columns.template.setAll({
@@ -119,10 +122,10 @@ export default function SeasonHeatMap() {
 
         series.set("heatRules", [{
             target: series.columns.template,
-            min: am5.color("#c6dbef"),
-            max: am5.color("#08306b"),
+            min: am5.color(colors.min),
+            max: am5.color(colors.max),
             dataField: "value",
-            key: "fill"
+            key: "fill",
         }]);
 
 
@@ -135,17 +138,32 @@ export default function SeasonHeatMap() {
         };
     };
 
-    const click = (e) => {
-        getSeasonData(e.target.value);
+    const changeSeason = (e) => {
+        setSeason(e.target.value);
+        getSeasonData(category, e.target.value);
+    };
+
+    const changeCategory = (e) => {
+        setCategory(e.target.value);
+        getSeasonData(e.target.value, season);
     };
 
     useLayoutEffect(() => {
-        getSeasonData(2023);
+        getSeasonData(category, season);
     }, []);
 
     useEffect(() => {
         if (data !== null) {
-            let chart = createHeatMapChart("chartdiv", data);
+            let colors = {};
+            if (category == "points") {
+                colors.min = "#c6c7ef";
+                colors.max = "#0a086b";
+            } else if (category == "positions") {
+                colors.min = "#ff2414";
+                colors.max = "#231fff";
+            }
+
+            let chart = createHeatMapChart("chartdiv", data, colors);
 
             return () => {
                 chart();
@@ -155,8 +173,14 @@ export default function SeasonHeatMap() {
 
     return (
         <div>
+            Select what data to show:
+            <select name="" id="" onChange={changeCategory}>
+                <option value="points" selected>Points After Each Race</option>
+                <option value="positions">Race Finish Position</option>
+            </select>
+
             Select season to show data:
-            <select name="" id="" onChange={click}>
+            <select name="" id="" onChange={changeSeason}>
                 <option value="2023" selected>2023</option>
                 <option value="2022">2022</option>
                 <option value="2021">2021</option>
