@@ -11,7 +11,6 @@ export default function Schedule() {
             );
             const parsed = await response.json();
             setData(parsed);
-            console.log(parsed);
         })();
     }, []);
 

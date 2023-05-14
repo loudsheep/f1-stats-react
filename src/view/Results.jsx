@@ -73,8 +73,6 @@ export default function Results() {
             setDriverLaps(parsed.data);
             setDriverName(driver);
             setDriverColor(color);
-
-            console.log(parsed.data);
         })();
     }
 
@@ -103,8 +101,8 @@ export default function Results() {
                     Select Event:
                     <select name="event" id="" placeholder='Select' onChange={selectEvent}>
                         <option value="" selected>Event</option>
-                        {events.map((value, i) => (
-                            <option value={value.RoundNumber}>{value.EventName}</option>
+                        {events.map((value, idx) => (
+                            <option value={value.RoundNumber} key={idx}>{value.EventName}</option>
                         ))}
                     </select>
                 </div>
@@ -115,8 +113,8 @@ export default function Results() {
                         <option value="" selected>Session</option>
                         {selectedEvent !== null && (
                             <>
-                                {events[selectedEvent].Sessions.map((value) => (
-                                    <option value={value}>{value}</option>
+                                {events[selectedEvent].Sessions.map((value, idx) => (
+                                    <option value={value} key={idx}>{value}</option>
                                 ))}
                             </>
                         )}
@@ -143,8 +141,8 @@ export default function Results() {
                             <th>Status</th>
                         </tr>
 
-                        {results.map((value) => (
-                            <tr style={{ color: '#' + value.TeamColor }} onClick={() => selectDriver(value.Abbreviation, value.TeamColor)}>
+                        {results.map((value, idx) => (
+                            <tr style={{ color: '#' + value.TeamColor }} onClick={() => selectDriver(value.Abbreviation, value.TeamColor)} key={idx}>
                                 <td>{value.Position}</td>
                                 <td>{value.FullName}</td>
                                 <td>{value.TeamName}</td>

@@ -33,11 +33,11 @@ export default function DriverLapTimesChart({ lapTimes = [], driver = "", color 
         } else if (name == "INTERMEDIATE") {
             return am5.color("#1a9c00");
         }
-        
+
         return am5.color("#000000");
     };
 
-    const createChart = (id, data) => {
+    const createChart = (id, driver, color, lapTimes) => {
         let root = am5.Root.new(id);
 
         root.interfaceColors.set("grid", am5.color("#fff"));
@@ -67,40 +67,40 @@ export default function DriverLapTimesChart({ lapTimes = [], driver = "", color 
             })
         );
 
-        for (let i of data) {
-            let series = chart.series.push(
-                am5xy.SmoothedXLineSeries.new(root, {
-                    name: i.name,
-                    xAxis: xAxis,
-                    yAxis: yAxis,
-                    valueYField: "LapTime",
-                    valueXField: "LapNumber",
-                    tooltip: am5.Tooltip.new(root, {
-                        labelText: "[bold]Lap {valueX} - {valueY}",
-                    }),
+        let series = chart.series.push(
+            am5xy.SmoothedXLineSeries.new(root, {
+                name: driver,
+                xAxis: xAxis,
+                yAxis: yAxis,
+                valueYField: "LapTime",
+                valueXField: "LapNumber",
+                tooltip: am5.Tooltip.new(root, {
+                    labelText: "[bold]Lap {valueX} - {valueY}",
+                }),
 
-                })
-            );
+            })
+        );
 
-            series.bullets.push(function (root, series, dataItem) {
-                return am5.Bullet.new(root, {
-                    sprite: am5.Circle.new(root, {
-                        radius: 6,
-                        fill: getCompoundColor(dataItem.dataContext.Compound)
-                    })
-                    // sprite: am5.Picture.new(root, {
-                    //     width: 20,
-                    //     height: 20,
-                    //     centerY: am5.percent(75),
-                    //     centerX: am5.p50,
-                    //     src: getCompoundImage(dataItem.dataContext.Compound),
-                    // })
-                });
+        let bulletTemplate = am5.Template.new(root, {});
+        bulletTemplate.events.on("click", function (ev) {
+            console.log("Clicked on a lap:", ev.target.dataItem.dataContext.LapNumber);
+        });
+
+        series.bullets.push(function (root, series, dataItem) {
+            return am5.Bullet.new(root, {
+                sprite: am5.Circle.new(root, {
+                    radius: 6,
+                    fill: getCompoundColor(dataItem.dataContext.Compound)
+                }, bulletTemplate),
             });
+        });
 
-            series.data.setAll(i.data);
-            series.set("stroke", am5.color(i.color));
-        }
+        series.events.on("click", function (ev) {
+            console.log("Clicked on a column", ev.target);
+        });
+
+        series.data.setAll(lapTimes);
+        series.set("stroke", am5.color(color));
 
 
         // Add legend
@@ -134,9 +134,7 @@ export default function DriverLapTimesChart({ lapTimes = [], driver = "", color 
 
 
     useLayoutEffect(() => {
-        let laps = createChart("lapTimesChart", [
-            { color: color, name: driver, data: lapTimes },
-        ]);
+        let laps = createChart("lapTimesChart", driver, color, lapTimes);
 
         return () => {
             laps();

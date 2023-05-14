@@ -1,7 +1,6 @@
 import { useLayoutEffect, useEffect, useState } from "react";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
-import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import f1Tire from '../assets/F1_tire_Pirelli_PZero_Red.svg.png'
 
 
@@ -11,7 +10,6 @@ export default function SeasonHeatMap() {
     const [category, setCategory] = useState("points");
 
     const getSeasonData = (category, season) => {
-        console.log(category, season);
         if (season == "") return;
         setData(null);
 
@@ -36,10 +34,6 @@ export default function SeasonHeatMap() {
                 driver: driver,
             });
         }
-
-        root.setThemes([
-            am5themes_Animated.new(root)
-        ]);
 
         var chart = root.container.children.push(am5xy.XYChart.new(root, {
             panX: false,
@@ -107,7 +101,7 @@ export default function SeasonHeatMap() {
             height: am5.percent(100),
         });
 
-        series.bullets.push(function () {
+        series.bullets.push(function (root, series, dataItem) {
             return am5.Bullet.new(root, {
                 sprite: am5.Label.new(root, {
                     fill: am5.color("#ffffff"),
