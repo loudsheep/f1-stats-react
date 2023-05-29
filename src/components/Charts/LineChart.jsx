@@ -39,7 +39,7 @@ export default function LineChart() {
         };
     };
 
-    const createChart = (id, data) => {
+    const createChart = (id, data, title) => {
         let root = am5.Root.new(id);
 
         root.interfaceColors.set("grid", am5.color("#fff"));
@@ -51,6 +51,19 @@ export default function LineChart() {
                 layout: root.verticalLayout,
             })
         );
+
+        if (title != null) {
+            chart.children.unshift(am5.Label.new(root, {
+                text: title,
+                fontSize: 25,
+                fontWeight: "500",
+                textAlign: "center",
+                x: am5.percent(50),
+                centerX: am5.percent(50),
+                paddingTop: 0,
+                paddingBottom: 5
+            }));
+        }
 
         // Create Y-axis
         let yAxis = chart.yAxes.push(
@@ -371,15 +384,15 @@ export default function LineChart() {
         let speed = createChart("speedChart", [
             { color: "#0000ff", name: "VER", data: myData.speed },
             { color: "#c40000", name: "LEC", data: myData2.speed },
-        ]);
+        ], "Speed comparison");
         let gear = createChart("gearChart", [
             { color: "#0000ff", name: "VER", data: myData.gear },
             { color: "#c40000", name: "LEC", data: myData2.gear },
-        ]);
+        ], "Gear");
         let rpm = createChart("rpmChart", [
             { color: "#0000ff", name: "VER", data: myData.rpm },
             { color: "#c40000", name: "LEC", data: myData2.rpm },
-        ]);
+        ], "RPM");
 
         let speedMap = createTrackChart("speedMapChart", myData.track_map, myData.speed, "TRACK", gradientArray);
 
