@@ -100,8 +100,10 @@ export default function LinearChart({ title, chartData }) {
         };
     };
 
+    const randomID = Math.round(Math.random() * 1000);
+
     useLayoutEffect(() => {
-        let chart = createChart("linear-chart", chartData, title);
+        let chart = createChart("linear-chart" + randomID, chartData, title);
 
         return () => {
             chart();
@@ -109,6 +111,6 @@ export default function LinearChart({ title, chartData }) {
     });
 
     return <>
-        <div id="linear-chart" className="chart" style={{ width: "100%", height: "500px", marginBottom: "50px" }}></div>
+        <div id={"linear-chart" + randomID} className="chart" style={{ width: "100%", height: "500px", marginBottom: "50px" }}></div>
     </>;
 }

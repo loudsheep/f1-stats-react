@@ -24,7 +24,7 @@ nav>a {
 nav>a:hover {
     color: rgb(216, 216, 216);
     min-width: 200px;
-    border-bottom: 2px solid white;
+    border-bottom: 2px solid rgb(187, 0, 0);
 }
 
 .active {

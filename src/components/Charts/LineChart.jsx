@@ -394,7 +394,7 @@ export default function LineChart() {
             { color: "#c40000", name: "LEC", data: myData2.rpm },
         ], "RPM");
 
-        let speedMap = createTrackChart("speedMapChart", myData.track_map, myData.speed, "TRACK", gradientArray);
+        let speedMap = createTrackChart("speedMapChart", myData.track_map, myData.throttle, "TRACK", gradientArray);
 
         let compareMap = comaprisonTrackMap("compareMapChart", myData.track_map, [
             { color: "#0000ff", name: "VER", data: myData.speed },
