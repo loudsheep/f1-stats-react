@@ -4,7 +4,7 @@ import * as am5plugins_exporting from "@amcharts/amcharts5/plugins/exporting";
 import { useLayoutEffect, useRef } from "react";
 import './DriverLapTimesChart.css';
 
-export default function DriverLapTimesChart({ lapTimes = [], driver = "", color = "#ffffff" }) {
+export default function DriverLapTimesChart({ lapTimes = [], driver = "", color = "#ffffff", onClickLapNumber = () => { } }) {
 
     const getCompoundImage = (name) => {
         if (name == "SOFT") {
@@ -83,7 +83,8 @@ export default function DriverLapTimesChart({ lapTimes = [], driver = "", color 
 
         let bulletTemplate = am5.Template.new(root, {});
         bulletTemplate.events.on("click", function (ev) {
-            console.log("Clicked on a lap:", ev.target.dataItem.dataContext.LapNumber);
+            // console.log("Clicked on a lap:", ev.target.dataItem.dataContext.LapNumber);
+            onClickLapNumber(ev.target.dataItem.dataContext.LapNumber);
         });
 
         series.bullets.push(function (root, series, dataItem) {

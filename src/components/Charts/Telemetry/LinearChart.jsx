@@ -3,7 +3,7 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import * as am5plugins_exporting from "@amcharts/amcharts5/plugins/exporting";
 
-export default function LinearChart({ title, chartData }) {
+export default function LinearChart({ title, chartData, style = { width: "100%", height: "500px", marginBottom: "50px" } }) {
     const createChart = (elementId, data, chartTitle) => {
         let root = am5.Root.new(elementId);
 
@@ -111,6 +111,6 @@ export default function LinearChart({ title, chartData }) {
     });
 
     return <>
-        <div id={"linear-chart" + randomID} className="chart" style={{ width: "100%", height: "500px", marginBottom: "50px" }}></div>
+        <div id={"linear-chart" + randomID} className="chart" style={style}></div>
     </>;
 }
