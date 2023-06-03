@@ -27,14 +27,29 @@
     }
 }
 
+.driver-select-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    border: 1px solid white;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 1.5rem;
+    margin-top: 1rem;
+}
+
+.driver-select-container > h2 {
+    margin-bottom: 1rem;
+}
+
 .driver-select {
     display: flex;
     flex-direction: row;
 
     width: 70%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 2rem;
 
     justify-content: space-around;
 }
@@ -45,5 +60,22 @@
     border-radius: 5px;
     padding: 0.25rem;
     margin: 0 5px;
+    cursor: pointer;
+}
+
+.selected-laps {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.selected-lap {
+    min-width: 200px;
+    border-radius: 5px;
+    margin: 0 0.5rem;
     cursor: pointer;
 }

@@ -21,6 +21,7 @@ export default function DriverTelemetryComparison() {
     const [driverColor, setDriverColor] = useState(null);
 
     const [speedData, setSpeedData] = useState([]);
+    const [gearData, setGearData] = useState([]);
 
     const clearLapTimesChartAndDrivers = () => {
         setDriverLaps(null);
@@ -29,8 +30,13 @@ export default function DriverTelemetryComparison() {
         setResults(null);
     };
 
+    const clearTelemetryCharts = () => {
+        setSpeedData([]);
+    };
+
     const getEventData = (e) => {
         clearLapTimesChartAndDrivers();
+        clearTelemetryCharts();
         let year = e.target.value;
         if (year == "") return;
         setSeason(year);
@@ -49,6 +55,7 @@ export default function DriverTelemetryComparison() {
 
     const selectEvent = (e) => {
         clearLapTimesChartAndDrivers();
+        clearTelemetryCharts();
         let event = e.target.value;
         if (event == "") return;
 
@@ -102,19 +109,32 @@ export default function DriverTelemetryComparison() {
             );
             let parsed = await response.json();
 
-            let sd = speedData;
-            speedData.push({
+            let sd = JSON.parse(JSON.stringify(speedData));
+            sd.push({
                 color: "#" + driverColor,
                 name: driverName,
                 data: parsed.data.speed,
+                displayName: "Lap " + lap + " - " + selectedSession + " - " + driverName
             });
-            console.log(speedData);
-            setSpeedData(speedData);
-            // setDriverLaps(parsed.data);
-            // setDriverName(driver);
-            // setDriverColor(color);
+            setSpeedData(sd);
+
+            let gd = JSON.parse(JSON.stringify(gearData));
+            gd.push({
+                color: "#" + driverColor,
+                name: driverName,
+                data: parsed.data.gear,
+                displayName: "Lap " + lap + " - " + selectedSession + " - " + driverName
+            });
+            setGearData(gd);
         })();
     };
+
+    const removeLapTelemetryFromChart = (elem) => {
+        let sd = JSON.parse(JSON.stringify(speedData));
+        let idx = speedData.indexOf(elem);
+        sd.splice(idx, 1);
+        setSpeedData(sd);
+    }
 
     // const data = [
     //     { color: "#0000ff", name: "VER", data: myData.speed },
@@ -179,22 +199,34 @@ export default function DriverTelemetryComparison() {
         )}
 
         {Array.isArray(results) && (
-            <div className="driver-select">
-                {results.map((value, idx) => (
-                    <div className="driver" style={{ color: '#' + value.TeamColor, borderColor: '#' + value.TeamColor }} onClick={() => selectDriver(value.Abbreviation, value.TeamColor)}>
-                        {value.Abbreviation}
-                    </div>
-                ))}
+            <div className="driver-select-container">
+                <h2>Select a driver:</h2>
+                <div className="driver-select">
+                    {results.map((value, idx) => (
+                        <div className="driver" style={{ color: '#' + value.TeamColor, borderColor: '#' + value.TeamColor }} onClick={() => selectDriver(value.Abbreviation, value.TeamColor)}>
+                            {value.Abbreviation}
+                        </div>
+                    ))}
+                </div>
             </div>
         )}
 
-        {driverLaps !== null && (
+        {driverLaps !== null ? (
             <DriverLapTimesChart lapTimes={driverLaps} driver={driverName} color={"#" + driverColor} onClickLapNumber={addLapTelemetryToChart}></DriverLapTimesChart>
+        ) : (
+            <div style={{ width: "90%", height: "500px", marginBottom: "50px", border: "1px solid #ffffff42", margin: "0 auto" }}></div>
         )}
 
+        <div className="selected-laps">
+            {speedData.map((value, idx) => (
+                <div className="selected-lap" style={{ color: value.color, backgroundColor: value.color + "50" }} onClick={() => removeLapTelemetryFromChart(value)}>{value.displayName}</div>
+            ))}
+        </div>
+
+
         <LinearChart title={"Speed data"} chartData={speedData}></LinearChart>
-        
-        {/* <LinearChart title={"Gear data VER - LEC"} chartData={data2} style={{ width: "100%", height: "250px", marginBottom: "50px" }}></LinearChart>
-        <MiniSectorsChart title={"Mini sectors VER - LEC"} trackMap={myData.track_map} timeData={trackData}></MiniSectorsChart> */}
+
+        <LinearChart title={"Gear data"} chartData={gearData} style={{ width: "100%", height: "250px", marginBottom: "50px" }}></LinearChart>
+        {/* <MiniSectorsChart title={"Mini sectors VER - LEC"} trackMap={myData.track_map} timeData={trackData}></MiniSectorsChart> */}
     </>
 }
