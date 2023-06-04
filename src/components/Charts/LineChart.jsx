@@ -25,10 +25,10 @@ export default function LineChart() {
         let min = Number.POSITIVE_INFINITY;
 
         for (let i of data) {
-            if (i.Y < min) {
+            if (i[key] < min) {
                 min = i[key];
             }
-            if (i.Y > max) {
+            if (i[key] > max) {
                 max = i[key]
             }
         }
@@ -428,7 +428,8 @@ export default function LineChart() {
             {/* <div id="speedMapChart" className="chart"  style={{ width: "100%", aspectRatio: "1", marginBottom: "50px" }}></div> */}
 
             {/* <div id="compareMapChart" className="chart"  style={{ width: "500px", height: "500px", marginBottom: "50px" }}></div> */}
-            <div id="compareMapChart" className="chart" style={{ width: "50%", aspectRatio: 1, marginBottom: "50px" }}></div>
+            {/* <div id="compareMapChart" className="chart" style={{ width: "50%", aspectRatio: 1, marginBottom: "50px" }}></div> */}
+            <div id="compareMapChart" className="chart" style={{ width: "40%", aspectRatio: 1, marginBottom: "50px" }}></div>
 
             <div id="sectorsChart" className="chart" style={{ width: "50%", aspectRatio: 1, marginBottom: "50px" }}></div>
         </>

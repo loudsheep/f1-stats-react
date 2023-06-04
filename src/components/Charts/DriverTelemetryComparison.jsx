@@ -6,6 +6,7 @@ import LinearChart from './Telemetry/LinearChart';
 import MiniSectorsChart from './Telemetry/MiniSectorsChart';
 import './DriverTelemetryComparison.css';
 import f1Tire from '../../assets/F1_tire_Pirelli_PZero_Red.svg.png';
+import SpeedComparisonChart from './Telemetry/SpeedComparisonChart';
 
 export default function DriverTelemetryComparison() {
     const colors = ["#FF00AA", "#00FFAA", "#FFAA00", "#AA00FF", "#00AAFF", "#AAFF00", "#FF5500", "#0055FF", "#FF0055", "#55FF00"];
@@ -23,6 +24,9 @@ export default function DriverTelemetryComparison() {
     const [speedData, setSpeedData] = useState([]);
     const [gearData, setGearData] = useState([]);
 
+    const [trackMap, setTrackMap] = useState(null);
+    const [timingData, setTimingData] = useState([])
+
     const clearLapTimesChartAndDrivers = () => {
         setDriverLaps(null);
         setDriverColor(null);
@@ -32,6 +36,9 @@ export default function DriverTelemetryComparison() {
 
     const clearTelemetryCharts = () => {
         setSpeedData([]);
+        setGearData([]);
+        setTimingData([]);
+        setTrackMap(null);
     };
 
     const getEventData = (e) => {
@@ -126,6 +133,16 @@ export default function DriverTelemetryComparison() {
                 displayName: "Lap " + lap + " - " + selectedSession + " - " + driverName
             });
             setGearData(gd);
+
+            setTrackMap(parsed.data.track_map);
+            let td = JSON.parse(JSON.stringify(timingData));
+            td.push({
+                color: "#" + driverColor,
+                name: driverName,
+                data: parsed.data.time,
+                displayName: "Lap " + lap + " - " + selectedSession + " - " + driverName
+            });
+            setTimingData(td);
         })();
     };
 
@@ -134,6 +151,18 @@ export default function DriverTelemetryComparison() {
         let idx = speedData.indexOf(elem);
         sd.splice(idx, 1);
         setSpeedData(sd);
+
+        let gd = JSON.parse(JSON.stringify(gearData));
+        gd.splice(idx, 1);
+        setGearData(gd);
+
+        let td = JSON.parse(JSON.stringify(timingData));
+        td.splice(idx, 1);
+        setTimingData(td);
+
+        if (td.length == 0) {
+            setTrackMap(null);
+        }
     }
 
     // const data = [
@@ -227,6 +256,12 @@ export default function DriverTelemetryComparison() {
         <LinearChart title={"Speed data"} chartData={speedData}></LinearChart>
 
         <LinearChart title={"Gear data"} chartData={gearData} style={{ width: "100%", height: "250px", marginBottom: "50px" }}></LinearChart>
-        {/* <MiniSectorsChart title={"Mini sectors VER - LEC"} trackMap={myData.track_map} timeData={trackData}></MiniSectorsChart> */}
+
+        {trackMap != null && (
+            <>
+                <MiniSectorsChart title={"Mini sectors"} trackMap={trackMap} timeData={timingData}></MiniSectorsChart>
+                {/* <SpeedComparisonChart title={"Speed comparison"} trackMap={trackMap} speedData={speedData}></SpeedComparisonChart> */}
+            </>
+        )}
     </>
 }
