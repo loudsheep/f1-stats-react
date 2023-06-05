@@ -8,8 +8,8 @@ export default function SpeedComparisonChart({ title, trackMap, speedData }) {
     const createChart = (id, track, speedData) => {
         let root = am5.Root.new(id);
 
-        root.interfaceColors.set("grid", am5.color("#fff"));
-        root.interfaceColors.set("text", am5.color("#fff"));
+        // root.interfaceColors.set("grid", am5.color("#fff"));
+        // root.interfaceColors.set("text", am5.color("#fff"));
 
         let chart = root.container.children.push(
             am5xy.XYChart.new(root, {

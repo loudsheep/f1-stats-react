@@ -260,7 +260,7 @@ export default function DriverTelemetryComparison() {
         {trackMap != null && (
             <>
                 <MiniSectorsChart title={"Mini sectors"} trackMap={trackMap} timeData={timingData}></MiniSectorsChart>
-                {/* <SpeedComparisonChart title={"Speed comparison"} trackMap={trackMap} speedData={speedData}></SpeedComparisonChart> */}
+                <SpeedComparisonChart title={"Speed comparison"} trackMap={trackMap} speedData={speedData}></SpeedComparisonChart>
             </>
         )}
     </>
