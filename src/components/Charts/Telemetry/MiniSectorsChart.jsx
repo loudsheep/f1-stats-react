@@ -142,6 +142,6 @@ export default function MiniSectorsChart({ title, trackMap, timeData, miniSector
     });
 
     return <>
-        <div id="map-chart" className="chart" style={{ width: "30%", aspectRatio: 1, marginBottom: "50px" }}></div>
+        <div id="map-chart" className="chart" style={{ width: "50%", aspectRatio: 1, marginBottom: "50px" }}></div>
     </>;
 }

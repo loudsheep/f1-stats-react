@@ -165,21 +165,6 @@ export default function DriverTelemetryComparison() {
         }
     }
 
-    // const data = [
-    //     { color: "#0000ff", name: "VER", data: myData.speed },
-    //     { color: "#c40000", name: "LEC", data: myData2.speed },
-    // ];
-
-    // const data2 = [
-    //     { color: "#0000ff", name: "VER", data: myData.gear },
-    //     { color: "#c40000", name: "LEC", data: myData2.gear },
-    // ];
-
-    // const trackData = [
-    //     { color: "#0000ff", name: "VER", data: myData.time },
-    //     { color: "#c40000", name: "LEC", data: myData2.time },
-    // ];
-
     return <>
         <div className="session-selector">
             <div className="select">
@@ -258,10 +243,10 @@ export default function DriverTelemetryComparison() {
         <LinearChart title={"Gear data"} chartData={gearData} style={{ width: "100%", height: "250px", marginBottom: "50px" }}></LinearChart>
 
         {trackMap != null && (
-            <>
-                <MiniSectorsChart title={"Mini sectors"} trackMap={trackMap} timeData={timingData}></MiniSectorsChart>
+            <div style={{display: "flex"}}>
+                <MiniSectorsChart title={"Mini sectors"} trackMap={trackMap} timeData={timingData} miniSectorCount={10}></MiniSectorsChart>
                 <SpeedComparisonChart title={"Speed comparison"} trackMap={trackMap} speedData={speedData}></SpeedComparisonChart>
-            </>
+            </div>
         )}
     </>
 }

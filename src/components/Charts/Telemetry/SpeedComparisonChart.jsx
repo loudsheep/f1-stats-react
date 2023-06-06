@@ -5,6 +5,25 @@ import * as am5plugins_exporting from "@amcharts/amcharts5/plugins/exporting";
 
 export default function SpeedComparisonChart({ title, trackMap, speedData }) {
 
+    const findDataMinAndMax = (data, key = "Y") => {
+        let max = Number.NEGATIVE_INFINITY;
+        let min = Number.POSITIVE_INFINITY;
+
+        for (let i of data) {
+            if (i[key] < min) {
+                min = i[key];
+            }
+            if (i[key] > max) {
+                max = i[key]
+            }
+        }
+
+        return {
+            min: min,
+            max: max,
+        };
+    };
+
     const createChart = (id, track, speedData) => {
         let root = am5.Root.new(id);
 
@@ -46,12 +65,22 @@ export default function SpeedComparisonChart({ title, trackMap, speedData }) {
             }
         }
 
+        let xDiff = findDataMinAndMax(track, "X");
+        let yDiff = findDataMinAndMax(track, "Y");
+        let higherDiff = xDiff.max - xDiff.min > yDiff.max - yDiff.min ? xDiff : yDiff;
+        let ratioX = (higherDiff.max - higherDiff.min) / (xDiff.max - xDiff.min);
+        let ratioY = (higherDiff.max - higherDiff.min) / (yDiff.max - yDiff.min);
+
+        let extraSpace = (higherDiff.max - higherDiff.min) * 0.1;
 
         // Create X-Axis
         let xAxis = chart.xAxes.push(
             am5xy.ValueAxis.new(root, {
                 renderer: am5xy.AxisRendererX.new(root, {}),
                 visible: false,
+                max: xDiff.max * ratioX + extraSpace,
+                min: yDiff.min * ratioX - extraSpace,
+                strictMinMax: true,
             })
         );
 
@@ -61,6 +90,9 @@ export default function SpeedComparisonChart({ title, trackMap, speedData }) {
                 renderer: am5xy.AxisRendererY.new(root, {}),
                 // syncWithAxis: xAxis,
                 visible: false,
+                max: yDiff.max * ratioY + extraSpace,
+                min: yDiff.min * ratioY - extraSpace,
+                strictMinMax: true,
             })
         );
         // Create series
@@ -96,6 +128,6 @@ export default function SpeedComparisonChart({ title, trackMap, speedData }) {
     });
 
     return <>
-        <div id="speed-chart" className="chart" style={{ width: "40%", aspectRatio: 1, marginBottom: "50px" }}></div>
+        <div id="speed-chart" className="chart" style={{ width: "50%", aspectRatio: 1, marginBottom: "50px" }}></div>
     </>;
 }
