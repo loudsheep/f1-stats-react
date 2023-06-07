@@ -23,6 +23,8 @@ export default function DriverTelemetryComparison() {
 
     const [speedData, setSpeedData] = useState([]);
     const [gearData, setGearData] = useState([]);
+    const [throttleData, setThrottleData] = useState([]);
+    const [rpmData, setRpmData] = useState([]);
 
     const [trackMap, setTrackMap] = useState(null);
     const [timingData, setTimingData] = useState([])
@@ -134,6 +136,24 @@ export default function DriverTelemetryComparison() {
             });
             setGearData(gd);
 
+            let rd = JSON.parse(JSON.stringify(rpmData));
+            rd.push({
+                color: "#" + driverColor,
+                name: driverName,
+                data: parsed.data.rpm,
+                displayName: "Lap " + lap + " - " + selectedSession + " - " + driverName
+            });
+            setRpmData(rd);
+
+            let th = JSON.parse(JSON.stringify(throttleData));
+            th.push({
+                color: "#" + driverColor,
+                name: driverName,
+                data: parsed.data.throttle,
+                displayName: "Lap " + lap + " - " + selectedSession + " - " + driverName
+            });
+            setThrottleData(th);
+
             setTrackMap(parsed.data.track_map);
             let td = JSON.parse(JSON.stringify(timingData));
             td.push({
@@ -156,6 +176,14 @@ export default function DriverTelemetryComparison() {
         gd.splice(idx, 1);
         setGearData(gd);
 
+        let rd = JSON.parse(JSON.stringify(rpmData));
+        rd.splice(idx, 1);
+        setRpmData(rd);
+
+        let th = JSON.parse(JSON.stringify(throttleData));
+        th.splice(idx, 1);
+        setThrottleData(th);
+
         let td = JSON.parse(JSON.stringify(timingData));
         td.splice(idx, 1);
         setTimingData(td);
@@ -168,9 +196,9 @@ export default function DriverTelemetryComparison() {
     return <>
         <div className="session-selector">
             <div className="select">
-                Select Season:
-                <select name="season" id="" onChange={getEventData}>
-                    <option value="">Select</option>
+                {/* Select Season: */}
+                <select name="season" id="" onChange={getEventData} className="select-elem">
+                    <option value="">Select Season</option>
 
                     <option value="2018">2018</option>
                     <option value="2019">2019</option>
@@ -182,9 +210,9 @@ export default function DriverTelemetryComparison() {
             </div>
 
             <div className="select">
-                Select Event:
-                <select name="event" id="" placeholder='Select' onChange={selectEvent}>
-                    <option value="" selected>Event</option>
+                {/* Select Event: */}
+                <select name="event" id="" placeholder='Select' onChange={selectEvent} className="select-elem">
+                    <option value="" selected>Select Event</option>
                     {events.map((value, idx) => (
                         <option value={value.RoundNumber} key={idx}>{value.EventName}</option>
                     ))}
@@ -192,9 +220,9 @@ export default function DriverTelemetryComparison() {
             </div>
 
             <div className="select">
-                Select Session:
-                <select name="session" id="" placeholder='Select' onChange={selectSession}>
-                    <option value="" selected>Session</option>
+                {/* Select Session: */}
+                <select name="session" id="" placeholder='Select' onChange={selectSession} className="select-elem">
+                    <option value="" selected>Select Session</option>
                     {selectedEvent !== null && (
                         <>
                             {events[selectedEvent].Sessions.map((value, idx) => (
@@ -238,12 +266,16 @@ export default function DriverTelemetryComparison() {
         </div>
 
 
-        <LinearChart title={"Speed data"} chartData={speedData}></LinearChart>
+        <LinearChart title={"Speed"} chartData={speedData}></LinearChart>
 
-        <LinearChart title={"Gear data"} chartData={gearData} style={{ width: "100%", height: "250px", marginBottom: "50px" }}></LinearChart>
+        <LinearChart title={"Gear"} chartData={gearData} style={{ width: "100%", height: "250px", marginBottom: "50px" }}></LinearChart>
+
+        <LinearChart title={"Throttle"} chartData={throttleData} style={{ width: "100%", height: "250px", marginBottom: "50px" }}></LinearChart>
+
+        <LinearChart title={"RPM"} chartData={rpmData} style={{ width: "100%", height: "250px", marginBottom: "50px" }}></LinearChart>
 
         {trackMap != null && (
-            <div style={{display: "flex"}}>
+            <div style={{ display: "flex" }}>
                 <MiniSectorsChart title={"Mini sectors"} trackMap={trackMap} timeData={timingData} miniSectorCount={10}></MiniSectorsChart>
                 <SpeedComparisonChart title={"Speed comparison"} trackMap={trackMap} speedData={speedData}></SpeedComparisonChart>
             </div>

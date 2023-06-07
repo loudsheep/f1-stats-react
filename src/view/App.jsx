@@ -50,7 +50,7 @@ export default function App() {
           Standings HeatMap
         </NavLink>
 
-        <NavLink
+        {/* <NavLink
           to={`/demo`}
           className={({ isActive, isPending }) =>
             isActive
@@ -61,7 +61,7 @@ export default function App() {
           }
         >
           Demo
-        </NavLink>
+        </NavLink> */}
 
         <NavLink
           to={`/telemetry`}
