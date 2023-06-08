@@ -142,6 +142,18 @@ export default function MiniSectorsChart({ title, trackMap, timeData, miniSector
     });
 
     return <>
-        <div id="map-chart" className="chart" style={{ width: "50%", aspectRatio: 1, marginBottom: "50px" }}></div>
+        <div style={{ textAlign: "center", width: "50%" }}>
+            {title != null && (
+                <h2>{title}</h2>
+            )}
+            <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
+                {timeData.map((value, idx) => (
+                    <div style={{ color: value.color, backgroundColor: value.color + "50", margin: "5px 0.5rem", borderRadius: "5px", padding: "1px" }}>
+                        {value.displayName}
+                    </div>
+                ))}
+            </div>
+            <div id="map-chart" className="chart" style={{ width: "100%", aspectRatio: 1, marginBottom: "50px" }}></div>
+        </div>
     </>;
 }

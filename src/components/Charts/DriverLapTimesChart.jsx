@@ -43,6 +43,8 @@ export default function DriverLapTimesChart({ lapTimes = [], driver = "", color 
         root.interfaceColors.set("grid", am5.color("#fff"));
         root.interfaceColors.set("text", am5.color("#fff"));
 
+
+
         let chart = root.container.children.push(
             am5xy.XYChart.new(root, {
                 panY: false,
@@ -52,8 +54,9 @@ export default function DriverLapTimesChart({ lapTimes = [], driver = "", color 
 
         // Create Y-axis
         let yAxis = chart.yAxes.push(
-            am5xy.ValueAxis.new(root, {
+            am5xy.DurationAxis.new(root, {
                 extraMax: 0,
+                baseUnit: "millisecond",
                 // min: 0,
                 renderer: am5xy.AxisRendererY.new(root, {}),
             })
@@ -126,6 +129,13 @@ export default function DriverLapTimesChart({ lapTimes = [], driver = "", color 
                 quality: 1,
                 maintainPixelRatio: true
             }
+        });
+
+        root.durationFormatter.set("baseUnit", "millisecond");
+        root.durationFormatter.setAll({
+            baseUnit: "millisecond",
+            durationFormat: "m:ss:SS",
+            durationFields: ["valueY"]
         });
 
         return () => {

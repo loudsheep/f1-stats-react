@@ -3,8 +3,8 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import * as am5plugins_exporting from "@amcharts/amcharts5/plugins/exporting";
 
-export default function LinearChart({ title, chartData, style = { width: "100%", height: "500px", marginBottom: "50px" } }) {
-    const createChart = (elementId, data, chartTitle) => {
+export default function LinearChart({ id = Math.round(Math.random() * 1000), title, chartData, style = { width: "100%", height: "500px", marginBottom: "50px" }, labelPostFix = "" }) {
+    const createChart = (elementId, data) => {
         let root = am5.Root.new(elementId);
 
         root.interfaceColors.set("grid", am5.color("#fff"));
@@ -17,9 +17,9 @@ export default function LinearChart({ title, chartData, style = { width: "100%",
             })
         );
 
-        if (chartTitle != null) {
+        if (title != null) {
             chart.children.unshift(am5.Label.new(root, {
-                text: chartTitle,
+                text: title,
                 fontSize: 25,
                 fontWeight: "500",
                 textAlign: "center",
@@ -56,7 +56,7 @@ export default function LinearChart({ title, chartData, style = { width: "100%",
                     valueYField: "Y",
                     valueXField: "X",
                     tooltip: am5.Tooltip.new(root, {
-                        labelText: "[bold]{valueY}",
+                        labelText: "[bold]{valueY}" + labelPostFix,
                     })
                 })
             );
@@ -100,10 +100,8 @@ export default function LinearChart({ title, chartData, style = { width: "100%",
         };
     };
 
-    const randomID = Math.round(Math.random() * 1000);
-
     useLayoutEffect(() => {
-        let chart = createChart("linear-chart" + randomID, chartData, title);
+        let chart = createChart("linear-chart" + id, chartData);
 
         return () => {
             chart();
@@ -111,6 +109,6 @@ export default function LinearChart({ title, chartData, style = { width: "100%",
     });
 
     return <>
-        <div id={"linear-chart" + randomID} className="chart" style={style}></div>
+        <div id={"linear-chart" + id} className="chart" style={style}></div>
     </>;
 }

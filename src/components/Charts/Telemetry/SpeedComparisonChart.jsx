@@ -51,7 +51,7 @@ export default function SpeedComparisonChart({ title, trackMap, speedData }) {
 
                 for (let j = 0; j < speedTmp.data.length; j++) {
                     if (speedTmp.data[j].X > X) {
-                        if (speedTmp.data[j].Y > speed.Y) {
+                        if (speedTmp.data[j].Y >= speed.Y) {
                             speed = speedTmp.data[j];
                             color = speedTmp.color;
                         }
@@ -113,6 +113,15 @@ export default function SpeedComparisonChart({ title, trackMap, speedData }) {
             templateField: "strokeSettings",
         });
 
+        let exporting = am5plugins_exporting.Exporting.new(root, {
+            menu: am5plugins_exporting.ExportingMenu.new(root, {
+
+            }),
+            pngOptions: {
+                quality: 1,
+                maintainPixelRatio: true
+            }
+        });
 
         return () => {
             root.dispose();
@@ -128,6 +137,18 @@ export default function SpeedComparisonChart({ title, trackMap, speedData }) {
     });
 
     return <>
-        <div id="speed-chart" className="chart" style={{ width: "50%", aspectRatio: 1, marginBottom: "50px" }}></div>
+        <div style={{ textAlign: "center", width: "50%" }}>
+            {title != null && (
+                <h2>{title}</h2>
+            )}
+            <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
+                {speedData.map((value, idx) => (
+                    <div style={{ color: value.color, backgroundColor: value.color + "50", margin: "5px 0.5rem", borderRadius: "5px", padding: "1px" }}>
+                        {value.displayName}
+                    </div>
+                ))}
+            </div>
+            <div id="speed-chart" className="chart" style={{ width: "100%", aspectRatio: 1, marginBottom: "50px" }}></div>
+        </div>
     </>;
 }

@@ -40,6 +40,8 @@ export default function DriverTelemetryComparison() {
         setSpeedData([]);
         setGearData([]);
         setTimingData([]);
+        setThrottleData([]);
+        setRpmData([]);
         setTrackMap(null);
     };
 
@@ -240,24 +242,28 @@ export default function DriverTelemetryComparison() {
             </>
         )}
 
-        {Array.isArray(results) && (
-            <div className="driver-select-container">
-                <h2>Select a driver:</h2>
-                <div className="driver-select">
-                    {results.map((value, idx) => (
-                        <div className="driver" style={{ color: '#' + value.TeamColor, borderColor: '#' + value.TeamColor }} onClick={() => selectDriver(value.Abbreviation, value.TeamColor)}>
-                            {value.Abbreviation}
-                        </div>
-                    ))}
-                </div>
-            </div>
-        )}
+        <div className="driver-select-container">
+            {Array.isArray(results) && (
+                <>
+                    <h2>Select a driver:</h2>
+                    <div className="driver-select">
+                        {results.map((value, idx) => (
+                            <div className="driver" style={{ color: '#' + value.TeamColor, borderColor: '#' + value.TeamColor }} onClick={() => selectDriver(value.Abbreviation, value.TeamColor)}>
+                                {value.Abbreviation}
+                            </div>
+                        ))}
+                    </div>
+                </>
+            )}
+        </div>
 
-        {driverLaps !== null ? (
-            <DriverLapTimesChart lapTimes={driverLaps} driver={driverName} color={"#" + driverColor} onClickLapNumber={addLapTelemetryToChart}></DriverLapTimesChart>
-        ) : (
-            <div style={{ width: "90%", height: "500px", marginBottom: "50px", border: "1px solid #ffffff42", margin: "0 auto" }}></div>
-        )}
+        <div style={{ width: "90%", height: "500px", marginBottom: "50px", border: "2px solid #ffffff42", margin: "0 auto" }}>
+            {driverLaps !== null && (
+                <DriverLapTimesChart lapTimes={driverLaps} driver={driverName} color={"#" + driverColor} onClickLapNumber={addLapTelemetryToChart}></DriverLapTimesChart>
+            )}
+        </div>
+
+        <hr />
 
         <div className="selected-laps">
             {speedData.map((value, idx) => (
@@ -265,19 +271,25 @@ export default function DriverTelemetryComparison() {
             ))}
         </div>
 
+        <br />
 
-        <LinearChart title={"Speed"} chartData={speedData}></LinearChart>
+        <div className="chart-container">
+            <LinearChart id={1} title={"Speed"} chartData={speedData} labelPostFix=' km/h'></LinearChart>
 
-        <LinearChart title={"Gear"} chartData={gearData} style={{ width: "100%", height: "250px", marginBottom: "50px" }}></LinearChart>
+            <LinearChart id={2} title={"Gear"} chartData={gearData} style={{ width: "100%", height: "250px", marginBottom: "50px" }}></LinearChart>
 
-        <LinearChart title={"Throttle"} chartData={throttleData} style={{ width: "100%", height: "250px", marginBottom: "50px" }}></LinearChart>
+            <LinearChart id={3} title={"Throttle"} chartData={throttleData} style={{ width: "100%", height: "250px", marginBottom: "50px" }} labelPostFix='%'></LinearChart>
 
-        <LinearChart title={"RPM"} chartData={rpmData} style={{ width: "100%", height: "250px", marginBottom: "50px" }}></LinearChart>
+            <LinearChart id={4} title={"RPM"} chartData={rpmData} style={{ width: "100%", height: "250px", marginBottom: "50px" }}></LinearChart>
+        </div>
+
 
         {trackMap != null && (
-            <div style={{ display: "flex" }}>
-                <MiniSectorsChart title={"Mini sectors"} trackMap={trackMap} timeData={timingData} miniSectorCount={10}></MiniSectorsChart>
-                <SpeedComparisonChart title={"Speed comparison"} trackMap={trackMap} speedData={speedData}></SpeedComparisonChart>
+            <div className="chart-container">
+                <div style={{ display: "flex" }}>
+                    <MiniSectorsChart title={"10 Mini sectors"} trackMap={trackMap} timeData={timingData} miniSectorCount={10}></MiniSectorsChart>
+                    <SpeedComparisonChart title={"Speed comparison"} trackMap={trackMap} speedData={speedData}></SpeedComparisonChart>
+                </div>
             </div>
         )}
     </>
