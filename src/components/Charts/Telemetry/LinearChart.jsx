@@ -3,7 +3,7 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import * as am5plugins_exporting from "@amcharts/amcharts5/plugins/exporting";
 
-export default function LinearChart({ id = Math.round(Math.random() * 1000), title, chartData, style = { width: "100%", height: "500px", marginBottom: "50px" }, labelPostFix = "" }) {
+export default function LinearChart({ id = Math.round(Math.random() * 1000), title, chartData, style = { width: "100%", height: "500px", marginBottom: "50px" }, labelPostFix = "", xAxisLabel = null, yAxisLabel = null }) {
     const createChart = (elementId, data) => {
         let root = am5.Root.new(elementId);
 
@@ -34,9 +34,18 @@ export default function LinearChart({ id = Math.round(Math.random() * 1000), tit
         let yAxis = chart.yAxes.push(
             am5xy.ValueAxis.new(root, {
                 extraMax: 0,
-                renderer: am5xy.AxisRendererY.new(root, {})
+                renderer: am5xy.AxisRendererY.new(root, {}),
             })
         );
+
+        if (yAxisLabel != null) {
+            yAxis.children.unshift(am5.Label.new(root, {
+                rotation: -90,
+                text: yAxisLabel,
+                y: am5.p50,
+                centerX: am5.p50
+            }));
+        }
 
         // Create X-Axis
         let xAxis = chart.xAxes.push(
@@ -46,6 +55,16 @@ export default function LinearChart({ id = Math.round(Math.random() * 1000), tit
             })
         );
         // xAxis.data.setAll(data);
+
+        if (xAxisLabel != null) {
+            xAxis.children.push(
+                am5.Label.new(root, {
+                    text: xAxisLabel,
+                    x: am5.p50,
+                    centerX: am5.p50
+                })
+            );
+        }
 
         for (let i of data) {
             let series = chart.series.push(

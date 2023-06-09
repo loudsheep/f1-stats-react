@@ -59,9 +59,7 @@
 .driver-select {
     display: flex;
     flex-direction: row;
-
     width: 70%;
-
     justify-content: space-around;
 }
 

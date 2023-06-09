@@ -54,7 +54,7 @@ export default function DriverTelemetryComparison() {
 
         (async () => {
             const response = await fetch(
-                `http://${window.backendServerAddress}:8000/sessions?year=${year}`
+                `http://${window.backendServerAddress}:${window.backendServerPort}/sessions?year=${year}`
             );
             const parsed = await response.json();
             setEvents(parsed.data);
@@ -88,7 +88,7 @@ export default function DriverTelemetryComparison() {
 
         (async () => {
             const response = await fetch(
-                `http://${window.backendServerAddress}:8000/results?year=${season}&event=${events[selectedEvent].RoundNumber}&session=${session}`
+                `http://${window.backendServerAddress}:${window.backendServerPort}/results?year=${season}&event=${events[selectedEvent].RoundNumber}&session=${session}`
             );
             const parsed = await response.json();
             setResults(parsed.data);
@@ -102,7 +102,7 @@ export default function DriverTelemetryComparison() {
 
         (async () => {
             const response = await fetch(
-                `http://${window.backendServerAddress}:8000/laps?year=${season}&event=${events[selectedEvent].RoundNumber}&session=${selectedSession}&driver=${driver}`
+                `http://${window.backendServerAddress}:${window.backendServerPort}/laps?year=${season}&event=${events[selectedEvent].RoundNumber}&session=${selectedSession}&driver=${driver}`
             );
             const parsed = await response.json();
             setDriverLaps(parsed.data);
@@ -116,7 +116,7 @@ export default function DriverTelemetryComparison() {
 
         (async () => {
             const response = await fetch(
-                `http://${window.backendServerAddress}:8000/telemetry?year=${season}&event=${events[selectedEvent].RoundNumber}&session=${selectedSession}&driver=${driverName}&lap=${lap}`
+                `http://${window.backendServerAddress}:${window.backendServerPort}/telemetry?year=${season}&event=${events[selectedEvent].RoundNumber}&session=${selectedSession}&driver=${driverName}&lap=${lap}`
             );
             let parsed = await response.json();
 
@@ -274,13 +274,13 @@ export default function DriverTelemetryComparison() {
         <br />
 
         <div className="chart-container">
-            <LinearChart id={1} title={"Speed"} chartData={speedData} labelPostFix=' km/h'></LinearChart>
+            <LinearChart id={1} title={"Speed"} chartData={speedData} labelPostFix=' km/h' yAxisLabel={"Speed (km/h)"} xAxisLabel={"Distance (m)"}></LinearChart>
 
-            <LinearChart id={2} title={"Gear"} chartData={gearData} style={{ width: "100%", height: "250px", marginBottom: "50px" }}></LinearChart>
+            <LinearChart id={2} title={"Gear"} chartData={gearData} style={{ width: "100%", height: "250px", marginBottom: "50px" }} xAxisLabel={"Distance (m)"} yAxisLabel={"Gear"}></LinearChart>
 
-            <LinearChart id={3} title={"Throttle"} chartData={throttleData} style={{ width: "100%", height: "250px", marginBottom: "50px" }} labelPostFix='%'></LinearChart>
+            <LinearChart id={3} title={"Throttle"} chartData={throttleData} style={{ width: "100%", height: "250px", marginBottom: "50px" }} labelPostFix='%' xAxisLabel={"Distance (m)"} yAxisLabel={"Throttle (%)"}></LinearChart>
 
-            <LinearChart id={4} title={"RPM"} chartData={rpmData} style={{ width: "100%", height: "250px", marginBottom: "50px" }}></LinearChart>
+            <LinearChart id={4} title={"RPM"} chartData={rpmData} style={{ width: "100%", height: "250px", marginBottom: "50px" }} xAxisLabel={"Distance (m)"} yAxisLabel={"RPM"}></LinearChart>
         </div>
 
 

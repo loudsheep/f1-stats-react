@@ -22,7 +22,7 @@ export default function Results() {
 
         (async () => {
             const response = await fetch(
-                `http://${window.backendServerAddress}:8000/sessions?year=${year}`
+                `http://${window.backendServerAddress}:${window.backendServerPort}/sessions?year=${year}`
             );
             const parsed = await response.json();
             setEvents(parsed.data);
@@ -53,7 +53,7 @@ export default function Results() {
 
         (async () => {
             const response = await fetch(
-                `http://${window.backendServerAddress}:8000/results?year=${season}&event=${events[selectedEvent].RoundNumber}&session=${session}`
+                `http://${window.backendServerAddress}:${window.backendServerPort}/results?year=${season}&event=${events[selectedEvent].RoundNumber}&session=${session}`
             );
             const parsed = await response.json();
             setResults(parsed.data);
@@ -67,7 +67,7 @@ export default function Results() {
 
         (async () => {
             const response = await fetch(
-                `http://${window.backendServerAddress}:8000/laps?year=${season}&event=${events[selectedEvent].RoundNumber}&session=${selectedSession}&driver=${driver}`
+                `http://${window.backendServerAddress}:${window.backendServerPort}/laps?year=${season}&event=${events[selectedEvent].RoundNumber}&session=${selectedSession}&driver=${driver}`
             );
             const parsed = await response.json();
             setDriverLaps(parsed.data);

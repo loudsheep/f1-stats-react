@@ -7,7 +7,7 @@ export default function Schedule() {
     useEffect(() => {
         (async () => {
             const response = await fetch(
-                `http://${window.backendServerAddress}:8000/schedule`
+                `http://${window.backendServerAddress}:${window.backendServerPort}/schedule`
             );
             const parsed = await response.json();
             setData(parsed);

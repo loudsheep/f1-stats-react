@@ -143,7 +143,7 @@ export default function SpeedComparisonChart({ title, trackMap, speedData }) {
             )}
             <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
                 {speedData.map((value, idx) => (
-                    <div style={{ color: value.color, backgroundColor: value.color + "50", margin: "5px 0.5rem", borderRadius: "5px", padding: "1px" }}>
+                    <div style={{ color: value.color, backgroundColor: value.color + "50", margin: "5px 0.5rem", borderRadius: "5px", padding: "1px", minWidth: "200px" }}>
                         {value.displayName}
                     </div>
                 ))}
