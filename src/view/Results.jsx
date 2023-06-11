@@ -82,25 +82,25 @@ export default function Results() {
 
             <br />
 
-            <div className="session-selector">
+            <div className="selector">
                 <div className="select">
-                    Select Season:
-                    <select name="season" id="" onChange={getEventData}>
-                        <option value="">Select</option>
+                    {/* Select Season: */}
+                    <select name="season" id="" onChange={getEventData} className="select-elem">
+                        <option value="">Select Season</option>
 
-                        <option value="2018">2018</option>
-                        <option value="2019">2019</option>
-                        <option value="2020">2020</option>
-                        <option value="2021">2021</option>
-                        <option value="2022">2022</option>
                         <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                        <option value="2019">2019</option>
+                        <option value="2018">2018</option>
                     </select>
                 </div>
 
                 <div className="select">
-                    Select Event:
-                    <select name="event" id="" placeholder='Select' onChange={selectEvent}>
-                        <option value="" selected>Event</option>
+                    {/* Select Event: */}
+                    <select name="event" id="" placeholder='Select' onChange={selectEvent} className="select-elem">
+                        <option value="" selected>Select Event</option>
                         {events.map((value, idx) => (
                             <option value={value.RoundNumber} key={idx}>{value.EventName}</option>
                         ))}
@@ -108,9 +108,9 @@ export default function Results() {
                 </div>
 
                 <div className="select">
-                    Select Session:
-                    <select name="session" id="" placeholder='Select' onChange={selectSession}>
-                        <option value="" selected>Session</option>
+                    {/* Select Session: */}
+                    <select name="session" id="" placeholder='Select' onChange={selectSession} className="select-elem">
+                        <option value="" selected>Select Session</option>
                         {selectedEvent !== null && (
                             <>
                                 {events[selectedEvent].Sessions.map((value, idx) => (

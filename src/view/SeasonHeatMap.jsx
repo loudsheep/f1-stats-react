@@ -170,22 +170,28 @@ export default function SeasonHeatMap() {
 
     return (
         <div>
-            Select what data to show:
-            <select name="" id="" onChange={changeCategory}>
-                <option value="points" selected>Points After Each Race</option>
-                <option value="positions">Race Finish Position</option>
-                <option value="qualifying">Qualifying Position</option>
-            </select>
+            <div className="selector" style={{width: "50%"}}>
+                <div className="select">
+                    {/* Select season to show data: */}
+                    <select name="" id="" onChange={changeSeason} className="select-elem">
+                        <option value="2023" selected>2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                        <option value="2019">2019</option>
+                        <option value="2018">2018</option>
+                    </select>
+                </div>
 
-            Select season to show data:
-            <select name="" id="" onChange={changeSeason}>
-                <option value="2023" selected>2023</option>
-                <option value="2022">2022</option>
-                <option value="2021">2021</option>
-                <option value="2020">2020</option>
-                <option value="2019">2019</option>
-                <option value="2018">2018</option>
-            </select>
+                <div className="select">
+                    {/* Select what data to show: */}
+                    <select name="" id="" onChange={changeCategory} className="select-elem">
+                        <option value="points" selected>Points After Each Race</option>
+                        <option value="positions">Race Finish Position</option>
+                        <option value="qualifying">Qualifying Position</option>
+                    </select>
+                </div>
+            </div>
 
             {data === null && (
                 <div>

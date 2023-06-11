@@ -62,3 +62,27 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+
+
+.selector {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1rem;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.select-elem {
+  width: 300px;
+  text-align: center;
+  height: 2rem;
+  font-size: 1rem;
+  outline: none;
+  border: 2px solid #ffffff42;
+  background-color: black;
+}
