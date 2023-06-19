@@ -54,7 +54,7 @@ export default function DriverTelemetryComparison() {
 
         (async () => {
             const response = await fetch(
-                `http://${window.backendServerAddress}:${window.backendServerPort}/sessions?year=${year}`
+                window.getBackendURL() + `/sessions?year=${year}`
             );
             const parsed = await response.json();
             setEvents(parsed.data);
@@ -88,7 +88,7 @@ export default function DriverTelemetryComparison() {
 
         (async () => {
             const response = await fetch(
-                `http://${window.backendServerAddress}:${window.backendServerPort}/results?year=${season}&event=${events[selectedEvent].RoundNumber}&session=${session}`
+                window.getBackendURL() + `/results?year=${season}&event=${events[selectedEvent].RoundNumber}&session=${session}`
             );
             const parsed = await response.json();
             setResults(parsed.data);
@@ -102,7 +102,7 @@ export default function DriverTelemetryComparison() {
 
         (async () => {
             const response = await fetch(
-                `http://${window.backendServerAddress}:${window.backendServerPort}/laps?year=${season}&event=${events[selectedEvent].RoundNumber}&session=${selectedSession}&driver=${driver}`
+                window.getBackendURL() + `/laps?year=${season}&event=${events[selectedEvent].RoundNumber}&session=${selectedSession}&driver=${driver}`
             );
             const parsed = await response.json();
             setDriverLaps(parsed.data);
@@ -116,7 +116,7 @@ export default function DriverTelemetryComparison() {
 
         (async () => {
             const response = await fetch(
-                `http://${window.backendServerAddress}:${window.backendServerPort}/telemetry?year=${season}&event=${events[selectedEvent].RoundNumber}&session=${selectedSession}&driver=${driverName}&lap=${lap}`
+                window.getBackendURL() + `/telemetry?year=${season}&event=${events[selectedEvent].RoundNumber}&session=${selectedSession}&driver=${driverName}&lap=${lap}`
             );
             let parsed = await response.json();
 

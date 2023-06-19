@@ -15,7 +15,7 @@ export default function SeasonHeatMap() {
 
         (async () => {
             const response = await fetch(
-                `http://${window.backendServerAddress}:${window.backendServerPort}/heatmap?year=${season}&category=${category}`
+                window.getBackendURL() + `/heatmap?year=${season}&category=${category}`
             );
             const parsed = await response.json();
             setData(parsed.data);

@@ -6,7 +6,7 @@ export default function PossibleWinners() {
     useEffect(() => {
         (async () => {
             const response = await fetch(
-                `http://${window.backendServerAddress}:${window.backendServerPort}/winners`
+                window.getBackendURL() + `/winners`
             );
             const parsed = await response.json();
             setData(parsed.data);

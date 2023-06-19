@@ -70,6 +70,11 @@ export default function DriverLapTimesChart({ lapTimes = [], driver = "", color 
             })
         );
 
+        xAxis.set("tooltip", am5.Tooltip.new(root, {
+            forceHidden: true,
+        }));
+
+
         let series = chart.series.push(
             am5xy.SmoothedXLineSeries.new(root, {
                 name: driver,
@@ -112,7 +117,12 @@ export default function DriverLapTimesChart({ lapTimes = [], driver = "", color 
         legend.data.setAll(chart.series.values);
 
         // Add cursor
-        let cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
+        let cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
+            snapToSeries: [ series ],
+            xAxis: xAxis,
+            snapToSeriesBy: "x"
+        }));
+
         cursor.lineX.setAll({
             stroke: am5.color("#fff"),
         });
@@ -134,7 +144,7 @@ export default function DriverLapTimesChart({ lapTimes = [], driver = "", color 
         root.durationFormatter.set("baseUnit", "millisecond");
         root.durationFormatter.setAll({
             baseUnit: "millisecond",
-            durationFormat: "m:ss:SS",
+            durationFormat: "m:ss:SSS",
             durationFields: ["valueY"]
         });
 
