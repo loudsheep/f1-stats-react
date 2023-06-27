@@ -1,5 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; */
+  font-family: 'Oswald', sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -72,7 +75,7 @@ button:focus-visible {
 
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-wrap: wrap;
   align-items: center;
 }

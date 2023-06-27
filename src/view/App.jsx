@@ -5,6 +5,7 @@ import Results from '../pages/Results';
 import SeasonHeatMap from '../pages/SeasonHeatMap';
 import PossibleWinners from '../pages/PossibleWinners';
 import DriverTelemetryComparison from '../pages/DriverTelemetryComparison';
+import MainPage from '../pages/MainPage';
 
 export default function App() {
 
@@ -65,7 +66,7 @@ export default function App() {
       </nav>
 
       <Routes>
-        <Route path='/' element={<h1>HELLO WORLD</h1>} />
+        <Route path='/' element={<MainPage />} />
         <Route path="/results" element={<Results />} />
         <Route path="/winners" element={<PossibleWinners />} />
         <Route path="/season-standings" element={<SeasonHeatMap />} />

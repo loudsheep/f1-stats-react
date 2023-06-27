@@ -61,6 +61,7 @@
     flex-direction: row;
     width: 70%;
     justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 .driver {
@@ -68,7 +69,7 @@
     border: 1px solid;
     border-radius: 5px;
     padding: 0.25rem;
-    margin: 0 5px;
+    margin: 5px 5px;
     cursor: pointer;
 }
 
