@@ -6,12 +6,11 @@ import { HashRouter } from "react-router-dom";
 
 
 window.backendServerAddress = "loudsheep.ddns.net";
-// window.backendServerAddress = "localhost";
 window.backendServerPort = "";
 window.backendRoutePrefix = "/api"
 
 window.getBackendURL = () => {
-  let url = "http://" + window.backendServerAddress;
+  let url = "https://" + window.backendServerAddress;
   if (window.backendServerPort != null) {
     url += ":" + window.backendServerPort;
   }

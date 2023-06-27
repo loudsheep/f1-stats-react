@@ -1,10 +1,10 @@
 import './App.css';
 import React from "react";
 import { Routes, Route, NavLink } from "react-router-dom";
-import Results from './Results';
-import SeasonHeatMap from './SeasonHeatMap';
-import PossibleWinners from './PossibleWinners';
-import DriverTelemetryComparison from '../components/Charts/DriverTelemetryComparison';
+import Results from '../pages/Results';
+import SeasonHeatMap from '../pages/SeasonHeatMap';
+import PossibleWinners from '../pages/PossibleWinners';
+import DriverTelemetryComparison from '../pages/DriverTelemetryComparison';
 
 export default function App() {
 

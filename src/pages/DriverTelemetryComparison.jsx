@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import myData from '../../assets/testData1.json';
-import myData2 from '../../assets/testData2.json';
-import DriverLapTimesChart from '../../components/Charts/DriverLapTimesChart';
-import LinearChart from './Telemetry/LinearChart';
-import MiniSectorsChart from './Telemetry/MiniSectorsChart';
+import DriverLapTimesChart from '../components/Charts/DriverLapTimesChart';
+import LinearChart from '../components/Charts/Telemetry/LinearChart';
+import MiniSectorsChart from '../components/Charts/Telemetry/MiniSectorsChart';
 import './DriverTelemetryComparison.css';
-import f1Tire from '../../assets/F1_tire_Pirelli_PZero_Red.svg.png';
-import SpeedComparisonChart from './Telemetry/SpeedComparisonChart';
+import f1Tire from '../assets/F1_tire_Pirelli_PZero_Red.svg.png';
+import SpeedComparisonChart from '../components/Charts/Telemetry/SpeedComparisonChart';
 
 export default function DriverTelemetryComparison() {
     const colors = ["#FF00AA", "#00FFAA", "#FFAA00", "#AA00FF", "#00AAFF", "#AAFF00", "#FF5500", "#0055FF", "#FF0055", "#55FF00"];
