@@ -6,25 +6,23 @@
     align-items: center;
     flex-wrap: wrap;
     margin: 2rem auto;
-    /* background-color: red; */
 }
 
 .tile {
     position: relative;
     width: calc(50% - 40px - 4px);
     min-width: 300px;
-    /* background-color: green; */
     margin: 20px;
-    aspect-ratio: 1.25;
+    aspect-ratio: 1.7;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
     border: 2px solid white;
-    /* border-radius: 2px; */
 
     cursor: pointer;
+    overflow: hidden;
 }
 
 .tile img {
@@ -38,7 +36,6 @@
 }
 
 .tile .text {
-    /*   z-index:99; */
     position: absolute;
     padding: 30px;
     height: calc(100% - 60px);
