@@ -92,7 +92,7 @@ export default function MiniSectorsChart({ title, trackMap, timeData, miniSector
                 renderer: am5xy.AxisRendererX.new(root, {}),
                 visible: false,
                 max: xDiff.max * ratioX + extraSpace,
-                min: yDiff.min * ratioX - extraSpace,
+                min: xDiff.min * ratioX - extraSpace,
                 strictMinMax: true,
             })
         );
