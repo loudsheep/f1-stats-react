@@ -7,13 +7,22 @@
     text-align: center;
 }
 
+a, a:visited, a:hover {
+    color: inherit;
+}
+
 .logo {
     font-family: Faster One;
     font-size: 2.5rem;
     font-style: italic;
+    color: white;
 }
 
-.logo > .part1 {
+.logo-link, .logo-link:hover {
+    color: white;
+}
+
+.logo .part1 {
     color: red;
 }
 

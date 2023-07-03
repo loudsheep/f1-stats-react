@@ -153,8 +153,8 @@ export default function SeasonHeatMap() {
                 colors.min = "#b9d4ff";
                 colors.max = "#09375a";
             } else if (category == "positions") {
-                colors.min = "#ff2414";
-                colors.max = "#231fff";
+                colors.min = "#082e4b";
+                colors.max = "#b9d4ff";
             } else if (category == "qualifying") {
                 colors.min = "#2a5779";
                 colors.max = "#b9d4ff";
