@@ -154,7 +154,9 @@ export default function DriverTelemetryComparison() {
             });
             setThrottleData(th);
 
-            setTrackMap(parsed.data.track_map);
+            if (trackMap == null) {
+                setTrackMap(parsed.data.track_map);
+            }
             let td = JSON.parse(JSON.stringify(timingData));
             td.push({
                 color: "#" + driverColor,
@@ -285,7 +287,7 @@ export default function DriverTelemetryComparison() {
         {trackMap != null && (
             <div className="chart-container">
                 <div style={{ display: "flex" }}>
-                    <MiniSectorsChart title={"10 Mini sectors"} trackMap={trackMap} timeData={timingData} miniSectorCount={10}></MiniSectorsChart>
+                    <MiniSectorsChart title={"20 Mini sectors"} trackMap={trackMap} timeData={timingData} miniSectorCount={20}></MiniSectorsChart>
                     <SpeedComparisonChart title={"Speed comparison"} trackMap={trackMap} speedData={speedData}></SpeedComparisonChart>
                 </div>
             </div>

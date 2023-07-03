@@ -4,6 +4,22 @@ import * as am5xy from "@amcharts/amcharts5/xy";
 import * as am5plugins_exporting from "@amcharts/amcharts5/plugins/exporting";
 
 export default function SpeedComparisonChart({ title, trackMap, speedData }) {
+    const map = (value, inputStart, inputEnd, outputStart, outputEnd) => {
+        return outputStart + ((outputEnd - outputStart) / (inputEnd - inputStart)) * (value - inputStart);
+    }
+
+    const interpolateSpeedForDistance = (targetDistance, speedData) => {
+        for (let i = 0; i < speedData.length - 1; i++) {
+            let t1 = speedData[i];
+            let t2 = speedData[i + 1];
+
+            if (t1.X <= targetDistance && targetDistance < t2.X) {
+                return map(targetDistance, t1.X, t2.X, t1.Y, t2.Y);
+            }
+        }
+
+        return speedData[speedData.length - 1].Y;
+    };
 
     const findDataMinAndMax = (data, key = "Y") => {
         let max = Number.NEGATIVE_INFINITY;
@@ -38,25 +54,20 @@ export default function SpeedComparisonChart({ title, trackMap, speedData }) {
         );
 
         track = JSON.parse(JSON.stringify(track));
-        let speed1 = speedData[speedData.length - 1];
+        let speed1 = speedData[0];
 
-        console.log(speed1);
         for (let i in track) {
             let X = speed1.data[i].X;
-            let speed = speed1.data[i];
+            let speed = speed1.data[i].Y;
             let color = speed1.color;
 
-            for (let s = 0; s < speedData.length - 1; s++) {
+            for (let s = 1; s < speedData.length; s++) {
                 let speedTmp = speedData[s];
-
-                for (let j = 0; j < speedTmp.data.length; j++) {
-                    if (speedTmp.data[j].X > X) {
-                        if (speedTmp.data[j].Y >= speed.Y) {
-                            speed = speedTmp.data[j];
-                            color = speedTmp.color;
-                        }
-                        break;
-                    }
+                
+                let interpolatedSpeed = interpolateSpeedForDistance(X, speedTmp.data);
+                if (interpolatedSpeed >= speed) {
+                    speed = interpolatedSpeed;
+                    color = speedTmp.color;
                 }
             }
 

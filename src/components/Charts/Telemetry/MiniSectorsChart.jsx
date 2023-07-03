@@ -3,6 +3,22 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 
 export default function MiniSectorsChart({ title, trackMap, timeData, miniSectorCount = 20 }) {
+    const map = (value, inputStart, inputEnd, outputStart, outputEnd) => {
+        return outputStart + ((outputEnd - outputStart) / (inputEnd - inputStart)) * (value - inputStart);
+    }
+
+    const interpolateTimeForDistance = (targetDistance, timeData) => {
+        for (let i = 0; i < timeData.length - 1; i++) {
+            let t1 = timeData[i];
+            let t2 = timeData[i + 1];
+
+            if (t1.X <= targetDistance && targetDistance < t2.X) {
+                return map(targetDistance, t1.X, t2.X, t1.Y, t2.Y);
+            }
+        }
+
+        return timeData[timeData.length - 1].Y;
+    };
 
     const findDataMinAndMax = (data, key = "Y") => {
         let max = Number.NEGATIVE_INFINITY;
@@ -43,31 +59,25 @@ export default function MiniSectorsChart({ title, trackMap, timeData, miniSector
         track = JSON.parse(JSON.stringify(track));
 
         let sectorColors = [];
-        for (let i = 0; i < miniSectorsCount + 1; i++) {
-            sectorColors.push({
-                color: "#000000",
-                time: Number.POSITIVE_INFINITY,
-            })
-        }
+        for (let i = 1; i < miniSectorsCount + 2; i++) {
+            let fastestMiniSector = Number.POSITIVE_INFINITY;
+            let color = "#000";
 
-        for (let time of timeData) {
-            let sectorTmpTime = 0;
-            let currentSector = 0;
-            let sectors = [];
-            for (let i of time.data) {
-                let sec = Math.floor(i.X / miniSectorDistance);
-                if (sec != currentSector) {
-                    sectors.push(i.Y - sectorTmpTime);
-                    if (sectorColors[currentSector].time > i.Y - sectorTmpTime) {
-                        sectorColors[currentSector] = {
-                            color: time.color,
-                            time: i.Y - sectorTmpTime,
-                        }
-                    }
-                    sectorTmpTime = i.Y;
-                    currentSector = sec;
+            for (let t of timeData) {
+                let tStart = interpolateTimeForDistance(miniSectorDistance * (i - 1), t.data);
+                let tEnd = interpolateTimeForDistance(miniSectorDistance * i, t.data);
+
+                if (tEnd - tStart < fastestMiniSector) {
+                    fastestMiniSector = tEnd - tStart;
+                    color = t.color;
                 }
             }
+
+
+            sectorColors.push({
+                color,
+                time: Number.POSITIVE_INFINITY,
+            })
         }
 
         for (let i in track) {
