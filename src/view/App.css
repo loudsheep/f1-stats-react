@@ -1,8 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Faster+One&display=swap');
+
 #root {
     width: 100%;
     margin: 0 auto;
     min-height: 100vh;
     text-align: center;
+}
+
+.logo {
+    font-family: Faster One;
+    font-size: 2.5rem;
+    font-style: italic;
+}
+
+.logo > .part1 {
+    color: red;
+}
+
+@media screen and (max-width: 500px) {
+    .logo {
+        margin-top: 1rem;
+    }
 }
 
 nav {
@@ -13,7 +31,7 @@ nav {
     align-items: center;
     flex-wrap: wrap;
 
-    margin: 2rem 0;
+    margin-bottom: 2rem;
 }
 
 nav>a {

@@ -1,0 +1,9 @@
+.winners-table > tr {
+    height: 2rem;
+}
+
+@media screen and (max-width: 500px) {
+    .winners-table {
+        width: 90%;
+    }
+}

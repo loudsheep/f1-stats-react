@@ -4,34 +4,18 @@ import * as am5plugins_exporting from "@amcharts/amcharts5/plugins/exporting";
 import { useLayoutEffect, useRef } from "react";
 import './DriverLapTimesChart.css';
 
-export default function DriverLapTimesChart({ lapTimes = [], driver = "", color = "#ffffff", onClickLapNumber = () => { } }) {
-
-    const getCompoundImage = (name) => {
-        if (name == "SOFT") {
-            return "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/F1_tire_Pirelli_PZero_Red.svg/120px-F1_tire_Pirelli_PZero_Red.svg.png";
-        } else if (name == "MEDIUM") {
-            return "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/F1_tire_Pirelli_PZero_Yellow.svg/120px-F1_tire_Pirelli_PZero_Yellow.svg.png";
-        } else if (name == "HARD") {
-            return "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/F1_tire_Pirelli_PZero_White.svg/120px-F1_tire_Pirelli_PZero_White.svg.png";
-        } else if (name == "WET") {
-            return "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/F1_tire_Pirelli_Cinturato_Blue.svg/120px-F1_tire_Pirelli_Cinturato_Blue.svg.png";
-        } else if (name == "INTERMEDIATE") {
-            return "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/F1_tire_Pirelli_Cinturato_Green.svg/120px-F1_tire_Pirelli_Cinturato_Green.svg.png";
-        }
-        return "https://flagcdn.com/w80/pl.png";
-    };
-
+export default function DriverLapTimesChart({ lapTimes = [], driver = "", color = "#ffffff", onClickLapNumber = (lap) => { } }) {
     const getCompoundColor = (name) => {
         if (name == "SOFT") {
-            return am5.color("#ff0000");
+            return am5.color("#da291c");
         } else if (name == "MEDIUM") {
-            return am5.color("#fbff00");
+            return am5.color("#ffd12e");
         } else if (name == "HARD") {
-            return am5.color("#ffffff");
+            return am5.color("#f0f0ec");
         } else if (name == "WET") {
-            return am5.color("#0004d6");
+            return am5.color("#0067ad");
         } else if (name == "INTERMEDIATE") {
-            return am5.color("#1a9c00");
+            return am5.color("#43b02a");
         }
 
         return am5.color("#000000");
