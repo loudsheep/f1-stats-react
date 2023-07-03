@@ -6,7 +6,7 @@ import SeasonHeatMap from '../pages/SeasonHeatMap';
 import PossibleWinners from '../pages/PossibleWinners';
 import DriverTelemetryComparison from '../pages/DriverTelemetryComparison';
 import MainPage from '../pages/MainPage';
-import TimeDeltaChart from '../components/Charts/Telemetry/TimeDeltaChart';
+// import TimeDeltaChart from '../components/Charts/Telemetry/TimeDeltaChart';
 
 export default function App() {
 
@@ -75,7 +75,7 @@ export default function App() {
         <Route path="/winners" element={<PossibleWinners />} />
         <Route path="/season-standings" element={<SeasonHeatMap />} />
         <Route path="/telemetry" element={<DriverTelemetryComparison />} />
-        <Route path="/demo" element={<TimeDeltaChart />} />
+        {/* <Route path="/demo" element={<TimeDeltaChart />} /> */}
       </Routes>
     </div>
   )
