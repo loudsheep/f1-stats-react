@@ -21,14 +21,14 @@ export default function Schedule() {
             ) : (
                 <>
                     <div className="next-round">
-                        <div className="flag"><img src={"https://flagcdn.com/h120/" + data.data[0].CountryCode.toLowerCase() + ".png"} alt="" /></div>
+                        <div className="flag flag1"><img src={"https://flagcdn.com/h120/" + data.data[0].CountryCode.toLowerCase() + ".png"} alt="" /></div>
 
                         <div>
                             <h3>Next round: {data.data[0].OfficialEventName}</h3>
                             {new Date(data.data[0].EventDate).toDateString()}
                         </div>
 
-                        <div className="flag"><img src={"https://flagcdn.com/h120/" + data.data[0].CountryCode.toLowerCase() + ".png"} alt="" /></div>
+                        <div className="flag flag2"><img src={"https://flagcdn.com/h120/" + data.data[0].CountryCode.toLowerCase() + ".png"} alt="" /></div>
                     </div>
                 </>
             )}

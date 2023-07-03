@@ -1,10 +1,19 @@
 .next-round {
+    width: 90%;
     border: 1px solid white;
     border-radius: 8px;
     padding: 10px;
     overflow: hidden;
+    margin: 0 auto;
 
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+@media screen and (max-width: 994px) {
+    .flag2 {
+        display: none;
+    }
 }

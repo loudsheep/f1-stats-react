@@ -21,6 +21,14 @@ nav>a {
     min-width: 200px;
     border-bottom: 2px solid white;
     margin: 0.25rem 0;
+    flex-shrink: 2;
+}
+
+@media screen and (max-width: 500px) {
+    nav>a {
+        width: 80%;
+        margin-top: 1rem;
+    }
 }
 
 nav>a:hover {

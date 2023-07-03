@@ -88,4 +88,5 @@ button:focus-visible {
   outline: none;
   border: 2px solid #ffffff42;
   background-color: black;
+  margin: 0.5rem 5px;
 }
