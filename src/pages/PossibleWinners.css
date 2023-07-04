@@ -7,3 +7,9 @@
         width: 90%;
     }
 }
+
+.laps-chart {
+    width: 50%;
+    aspect-ratio: 3;
+    margin: 3rem auto;
+}
