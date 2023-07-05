@@ -81,7 +81,7 @@ export default function MiniSectorsChart({ title, trackMap, timeData, miniSector
         }
 
         for (let i in track) {
-            let sec = Math.floor(timeData[timeData.length - 1].data[i].X / miniSectorDistance);
+            let sec = Math.floor(timeData[0].data[i].X / miniSectorDistance);
 
             track[i].strokeSettings = {
                 stroke: am5.color(sectorColors[sec].color),
@@ -157,7 +157,7 @@ export default function MiniSectorsChart({ title, trackMap, timeData, miniSector
             )}
             <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
                 {timeData.map((value, idx) => (
-                    <div style={{ color: value.color, backgroundColor: value.color + "50", margin: "5px 0.5rem", borderRadius: "5px", padding: "1px", minWidth: "200px" }}>
+                    <div key={idx} style={{ color: value.color, backgroundColor: value.color + "50", margin: "5px 0.5rem", borderRadius: "5px", padding: "1px", minWidth: "200px" }}>
                         {value.displayName}
                     </div>
                 ))}

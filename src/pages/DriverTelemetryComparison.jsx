@@ -248,7 +248,7 @@ export default function DriverTelemetryComparison() {
                     <h2>Select a driver:</h2>
                     <div className="driver-select">
                         {results.map((value, idx) => (
-                            <div className="driver" style={{ color: '#' + value.TeamColor, borderColor: '#' + value.TeamColor }} onClick={() => selectDriver(value.Abbreviation, value.TeamColor)}>
+                            <div key={idx} className="driver" style={{ color: '#' + value.TeamColor, borderColor: '#' + value.TeamColor }} onClick={() => selectDriver(value.Abbreviation, value.TeamColor)}>
                                 {value.Abbreviation}
                             </div>
                         ))}
@@ -267,7 +267,7 @@ export default function DriverTelemetryComparison() {
 
         <div className="selected-laps">
             {speedData.map((value, idx) => (
-                <div className="selected-lap" style={{ color: value.color, backgroundColor: value.color + "50" }} onClick={() => removeLapTelemetryFromChart(value)}>{value.displayName}</div>
+                <div key={idx} className="selected-lap" style={{ color: value.color, backgroundColor: value.color + "50" }} onClick={() => removeLapTelemetryFromChart(value)}>{value.displayName}</div>
             ))}
         </div>
 

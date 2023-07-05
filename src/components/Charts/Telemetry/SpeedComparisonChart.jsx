@@ -63,7 +63,7 @@ export default function SpeedComparisonChart({ title, trackMap, speedData }) {
 
             for (let s = 1; s < speedData.length; s++) {
                 let speedTmp = speedData[s];
-                
+
                 let interpolatedSpeed = interpolateSpeedForDistance(X, speedTmp.data);
                 if (interpolatedSpeed >= speed) {
                     speed = interpolatedSpeed;
@@ -154,7 +154,7 @@ export default function SpeedComparisonChart({ title, trackMap, speedData }) {
             )}
             <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
                 {speedData.map((value, idx) => (
-                    <div style={{ color: value.color, backgroundColor: value.color + "50", margin: "5px 0.5rem", borderRadius: "5px", padding: "1px", minWidth: "200px" }}>
+                    <div key={idx} style={{ color: value.color, backgroundColor: value.color + "50", margin: "5px 0.5rem", borderRadius: "5px", padding: "1px", minWidth: "200px" }}>
                         {value.displayName}
                     </div>
                 ))}
