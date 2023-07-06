@@ -1,7 +1,7 @@
-import { useLayoutEffect } from "react";
 import * as am5 from "@amcharts/amcharts5";
-import * as am5xy from "@amcharts/amcharts5/xy";
 import * as am5plugins_exporting from "@amcharts/amcharts5/plugins/exporting";
+import * as am5xy from "@amcharts/amcharts5/xy";
+import { useLayoutEffect } from "react";
 
 export default function SpeedComparisonChart({ title, trackMap, speedData }) {
     const map = (value, inputStart, inputEnd, outputStart, outputEnd) => {

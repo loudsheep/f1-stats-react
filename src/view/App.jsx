@@ -1,11 +1,11 @@
-import './App.css';
 import React from "react";
-import { Routes, Route, NavLink } from "react-router-dom";
+import { NavLink, Route, Routes } from "react-router-dom";
+import MainPage from '../pages/MainPage';
+import PossibleWinners from '../pages/PossibleWinners';
 import Results from '../pages/Results';
 import SeasonHeatMap from '../pages/SeasonHeatMap';
-import PossibleWinners from '../pages/PossibleWinners';
 import DriverTelemetryComparison from '../pages/Telemetry';
-import MainPage from '../pages/MainPage';
+import './App.css';
 
 export default function App() {
 

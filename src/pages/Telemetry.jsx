@@ -55,7 +55,7 @@ export default function DriverTelemetryComparison() {
 
         (async () => {
             const response = await fetch(
-                window.getBackendURL() + `/sessions?year=${year}`
+                window.getBackendURL() + `/sessions/${year}`
             );
             const parsed = await response.json();
             setEvents(parsed.data);
@@ -89,7 +89,7 @@ export default function DriverTelemetryComparison() {
 
         (async () => {
             const response = await fetch(
-                window.getBackendURL() + `/results?year=${season}&event=${events[selectedEvent].RoundNumber}&session=${session}`
+                window.getBackendURL() + `/results/${season}/${events[selectedEvent].RoundNumber}/${session}`
             );
             const parsed = await response.json();
             setResults(parsed.data);
@@ -104,7 +104,7 @@ export default function DriverTelemetryComparison() {
         (async () => {
             setDriverLaps("loading");
             const response = await fetch(
-                window.getBackendURL() + `/laps?year=${season}&event=${events[selectedEvent].RoundNumber}&session=${selectedSession}&driver=${driver}`
+                window.getBackendURL() + `/laps/${season}/${events[selectedEvent].RoundNumber}/${selectedSession}/${driver}`
             );
             const parsed = await response.json();
             setDriverLaps(parsed.data);
@@ -132,7 +132,7 @@ export default function DriverTelemetryComparison() {
 
         (async () => {
             const response = await fetch(
-                window.getBackendURL() + `/telemetry?year=${season}&event=${events[selectedEvent].RoundNumber}&session=${selectedSession}&driver=${driverName}&lap=${lap}`
+                window.getBackendURL() + `/telemetry/${season}/${events[selectedEvent].RoundNumber}/${selectedSession}/${driverName}/${lap}`
             );
             let parsed = await response.json();
 

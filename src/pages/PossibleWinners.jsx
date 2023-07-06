@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import './PossibleWinners.css';
+import React, { useEffect, useState } from "react";
 import LapsLedCharts from "../components/Charts/General/LapsLedChart";
+import './PossibleWinners.css';
 
 export default function PossibleWinners() {
     const [data, setData] = useState(null);

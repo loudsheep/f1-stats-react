@@ -1,8 +1,8 @@
 import { useState } from 'react';
+import f1Tire from '../assets/F1_tire_Pirelli_PZero_Red.svg.png';
 import DriverLapTimesChart from '../components/Charts/DriverLapTimesChart';
 import Schedule from '../components/Schedule/Schedule';
 import './Results.css';
-import f1Tire from '../assets/F1_tire_Pirelli_PZero_Red.svg.png';
 
 export default function Results() {
     const [season, setSeason] = useState(null);
@@ -22,7 +22,7 @@ export default function Results() {
 
         (async () => {
             const response = await fetch(
-                window.getBackendURL() + `/sessions?year=${year}`
+                window.getBackendURL() + `/sessions/${year}`
             );
             const parsed = await response.json();
             setEvents(parsed.data);
@@ -53,7 +53,7 @@ export default function Results() {
 
         (async () => {
             const response = await fetch(
-                window.getBackendURL() + `/results?year=${season}&event=${events[selectedEvent].RoundNumber}&session=${session}`
+                window.getBackendURL() + `/results/${season}/${events[selectedEvent].RoundNumber}/${session}`
             );
             const parsed = await response.json();
             setResults(parsed.data);
@@ -67,7 +67,7 @@ export default function Results() {
 
         (async () => {
             const response = await fetch(
-                window.getBackendURL() + `/laps?year=${season}&event=${events[selectedEvent].RoundNumber}&session=${selectedSession}&driver=${driver}`
+                window.getBackendURL() + `/laps/${season}/${events[selectedEvent].RoundNumber}/${selectedSession}/${driver}`
             );
             const parsed = await response.json();
             setDriverLaps(parsed.data);

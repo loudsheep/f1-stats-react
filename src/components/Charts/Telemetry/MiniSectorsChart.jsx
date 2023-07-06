@@ -1,6 +1,6 @@
-import { useLayoutEffect } from "react";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
+import { useLayoutEffect } from "react";
 
 export default function MiniSectorsChart({ title, trackMap, timeData, miniSectorCount = 20 }) {
     const map = (value, inputStart, inputEnd, outputStart, outputEnd) => {

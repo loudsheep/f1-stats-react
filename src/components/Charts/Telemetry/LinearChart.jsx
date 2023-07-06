@@ -1,7 +1,7 @@
-import { useLayoutEffect } from "react";
 import * as am5 from "@amcharts/amcharts5";
-import * as am5xy from "@amcharts/amcharts5/xy";
 import * as am5plugins_exporting from "@amcharts/amcharts5/plugins/exporting";
+import * as am5xy from "@amcharts/amcharts5/xy";
+import { useLayoutEffect } from "react";
 
 export default function LinearChart({ id = Math.round(Math.random() * 1000), title, chartData, style = { width: "100%", height: "500px", marginBottom: "50px" }, labelPostFix = "", xAxisLabel = null, yAxisLabel = null }) {
     const createChart = (elementId, data) => {

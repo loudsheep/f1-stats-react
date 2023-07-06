@@ -1,7 +1,7 @@
-import { useLayoutEffect, useEffect, useState } from "react";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
-import f1Tire from '../assets/F1_tire_Pirelli_PZero_Red.svg.png'
+import { useEffect, useLayoutEffect, useState } from "react";
+import f1Tire from '../assets/F1_tire_Pirelli_PZero_Red.svg.png';
 
 
 export default function SeasonHeatMap() {
@@ -15,7 +15,7 @@ export default function SeasonHeatMap() {
 
         (async () => {
             const response = await fetch(
-                window.getBackendURL() + `/heatmap?year=${season}&category=${category}`
+                window.getBackendURL() + `/heatmap/${season}/${category}`
             );
             const parsed = await response.json();
             setData(parsed.data);
