@@ -16,6 +16,7 @@ export default function DriverTelemetryComparison() {
     const [results, setResults] = useState(null);
 
     const [driverLaps, setDriverLaps] = useState(null);
+    const [fastestLapNumber, setFastestLapNumber] = useState(null);
     const [driverName, setDriverName] = useState(null);
     const [driverColor, setDriverColor] = useState(null);
 
@@ -99,6 +100,7 @@ export default function DriverTelemetryComparison() {
         setDriverColor(null);
 
         (async () => {
+            setDriverLaps("loading");
             const response = await fetch(
                 window.getBackendURL() + `/laps?year=${season}&event=${events[selectedEvent].RoundNumber}&session=${selectedSession}&driver=${driver}`
             );
@@ -106,6 +108,16 @@ export default function DriverTelemetryComparison() {
             setDriverLaps(parsed.data);
             setDriverName(driver);
             setDriverColor(color);
+
+            let min = 0;
+            for (let i = 0; i < parsed.data.length; i++) {
+                const element = parsed.data[i];
+                if (element["LapTime"] < parsed.data[min]["LapTime"]) {
+                    min = i;
+                }
+            }
+
+            setFastestLapNumber(parsed.data[min]["LapNumber"]);
         })();
     }
 
@@ -237,9 +249,7 @@ export default function DriverTelemetryComparison() {
         </div>
 
         {results === "loading" && (
-            <>
-                <img className="loading-tire" src={f1Tire} alt="" />
-            </>
+            <img className="loading-tire" src={f1Tire} alt="" />
         )}
 
         <div className="driver-select-container">
@@ -258,9 +268,17 @@ export default function DriverTelemetryComparison() {
         </div>
 
         <div style={{ width: "90%", height: "500px", marginBottom: "50px", border: "2px solid #ffffff42", margin: "0 auto" }}>
-            {driverLaps !== null && (
-                <DriverLapTimesChart lapTimes={driverLaps} driver={driverName} color={"#" + driverColor} onClickLapNumber={addLapTelemetryToChart}></DriverLapTimesChart>
+            {(driverLaps !== null && driverLaps !== "loading") && (
+                <DriverLapTimesChart lapTimes={driverLaps} driver={driverName} color={"#" + driverColor} title={season + " " + events[selectedEvent]["EventName"] + " - " + selectedSession + " - " + driverName + " lap times"} onClickLapNumber={addLapTelemetryToChart}></DriverLapTimesChart>
             )}
+
+            {driverLaps === "loading" && (
+                <img className="loading-tire" src={f1Tire} alt="" />
+            )}
+        </div>
+
+        <div style={{ width: "90%", margin: "0 auto", textAlign: "center" }}>
+            <button className='button' disabled={!(driverLaps !== null && driverLaps !== "loading")} onClick={() => { addLapTelemetryToChart(fastestLapNumber) }}>Select fastest lap</button>
         </div>
 
         <hr />

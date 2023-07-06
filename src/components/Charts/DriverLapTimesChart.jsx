@@ -4,7 +4,7 @@ import * as am5plugins_exporting from "@amcharts/amcharts5/plugins/exporting";
 import { useLayoutEffect, useRef } from "react";
 import './DriverLapTimesChart.css';
 
-export default function DriverLapTimesChart({ lapTimes = [], driver = "", color = "#ffffff", onClickLapNumber = (lap) => { } }) {
+export default function DriverLapTimesChart({ lapTimes = [], driver = "", color = "#ffffff", title = null, onClickLapNumber = (lap) => { } }) {
     const getCompoundColor = (name) => {
         if (name == "SOFT") {
             return am5.color("#da291c");
@@ -27,14 +27,25 @@ export default function DriverLapTimesChart({ lapTimes = [], driver = "", color 
         root.interfaceColors.set("grid", am5.color("#fff"));
         root.interfaceColors.set("text", am5.color("#fff"));
 
-
-
         let chart = root.container.children.push(
             am5xy.XYChart.new(root, {
                 panY: false,
                 layout: root.verticalLayout,
             })
         );
+
+        if (title != null) {
+            chart.children.unshift(am5.Label.new(root, {
+                text: title,
+                fontSize: 25,
+                fontWeight: "500",
+                textAlign: "center",
+                x: am5.percent(50),
+                centerX: am5.percent(50),
+                paddingTop: 0,
+                paddingBottom: 5
+            }));
+        }
 
         // Create Y-axis
         let yAxis = chart.yAxes.push(
@@ -95,14 +106,9 @@ export default function DriverLapTimesChart({ lapTimes = [], driver = "", color 
         series.data.setAll(lapTimes);
         series.set("stroke", am5.color(color));
 
-
-        // Add legend
-        let legend = chart.children.push(am5.Legend.new(root, {}));
-        legend.data.setAll(chart.series.values);
-
         // Add cursor
         let cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
-            snapToSeries: [ series ],
+            snapToSeries: [series],
             xAxis: xAxis,
             snapToSeriesBy: "x"
         }));
@@ -148,7 +154,7 @@ export default function DriverLapTimesChart({ lapTimes = [], driver = "", color 
 
     return (
         <>
-            <div id="lapTimesChart" style={{ width: "100%", height: "500px", marginBottom: "50px" }}></div>
+            <div id="lapTimesChart" style={{ width: "100%", height: "100%", marginBottom: "50px" }}></div>
         </>
     )
 }

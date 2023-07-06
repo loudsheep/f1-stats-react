@@ -10,6 +10,6 @@
 
 .laps-chart {
     width: 50%;
-    aspect-ratio: 3;
+    height: 350px;
     margin: 3rem auto;
 }

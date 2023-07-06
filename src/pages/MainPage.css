@@ -68,7 +68,6 @@
 .animate-text {
     opacity: 0;
     transition: all 0.6s ease-in-out;
-    color: black;
 }
 
 .tile:hover img {

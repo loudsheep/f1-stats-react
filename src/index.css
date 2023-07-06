@@ -30,6 +30,7 @@ a {
   color: #646cff;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #535bf2;
 }
@@ -46,26 +47,6 @@ h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
 
 .selector {
   width: 70%;
@@ -89,4 +70,31 @@ button:focus-visible {
   border: 2px solid #ffffff42;
   background-color: black;
   margin: 0.5rem 5px;
+}
+
+.button {
+  width: 300px;
+  text-align: center;
+  height: 2.5rem;
+  font-size: 1rem;
+  outline: none;
+  border: 2px solid #ffffff42;
+  background-color: black;
+  margin: 0.5rem 5px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: rgb(29, 29, 29);
+}
+
+.button:focus {
+  border: 2px solid #ff000063;
+}
+
+.button:disabled {
+  background-color: rgb(0, 0, 0);
+  color: #ffffff42;
+  border: 2px solid #ffffff28;
+  cursor: auto;
 }
