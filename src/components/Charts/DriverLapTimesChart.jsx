@@ -2,7 +2,6 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import * as am5plugins_exporting from "@amcharts/amcharts5/plugins/exporting";
 import { useLayoutEffect, useRef } from "react";
-import './DriverLapTimesChart.css';
 
 export default function DriverLapTimesChart({ lapTimes = [], driver = "", color = "#ffffff", title = null, onClickLapNumber = (lap) => { } }) {
     const getCompoundColor = (name) => {
@@ -150,7 +149,7 @@ export default function DriverLapTimesChart({ lapTimes = [], driver = "", color 
         return () => {
             laps();
         }
-    }, []);
+    }, [lapTimes]);
 
     return (
         <>

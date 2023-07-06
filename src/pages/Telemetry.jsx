@@ -2,7 +2,7 @@ import { useState } from 'react';
 import DriverLapTimesChart from '../components/Charts/DriverLapTimesChart';
 import LinearChart from '../components/Charts/Telemetry/LinearChart';
 import MiniSectorsChart from '../components/Charts/Telemetry/MiniSectorsChart';
-import './DriverTelemetryComparison.css';
+import './Telemetry.css';
 import f1Tire from '../assets/F1_tire_Pirelli_PZero_Red.svg.png';
 import SpeedComparisonChart from '../components/Charts/Telemetry/SpeedComparisonChart';
 
@@ -16,7 +16,9 @@ export default function DriverTelemetryComparison() {
     const [results, setResults] = useState(null);
 
     const [driverLaps, setDriverLaps] = useState(null);
+    const [driverLapsToShow, setDriverLapsToShow] = useState(null);
     const [fastestLapNumber, setFastestLapNumber] = useState(null);
+    const [showInvalidLaps, setShowInvalidLaps] = useState(false);
     const [driverName, setDriverName] = useState(null);
     const [driverColor, setDriverColor] = useState(null);
 
@@ -106,6 +108,10 @@ export default function DriverTelemetryComparison() {
             );
             const parsed = await response.json();
             setDriverLaps(parsed.data);
+            setDriverLapsToShow(parsed.data.filter((x) => {
+                if (x["IsAccurate"]) return true;
+                return showInvalidLaps;
+            }))
             setDriverName(driver);
             setDriverColor(color);
 
@@ -205,6 +211,16 @@ export default function DriverTelemetryComparison() {
         if (td.length == 0) {
             setTrackMap(null);
         }
+    };
+
+    const toggleInvalidLaps = () => {
+        let show = !showInvalidLaps;
+        setShowInvalidLaps(!showInvalidLaps);
+
+        setDriverLapsToShow(driverLaps.filter((x) => {
+            if (x["IsAccurate"]) return true;
+            return show;
+        }))
     }
 
     return <>
@@ -269,7 +285,7 @@ export default function DriverTelemetryComparison() {
 
         <div style={{ width: "90%", height: "500px", marginBottom: "50px", border: "2px solid #ffffff42", margin: "0 auto" }}>
             {(driverLaps !== null && driverLaps !== "loading") && (
-                <DriverLapTimesChart lapTimes={driverLaps} driver={driverName} color={"#" + driverColor} title={season + " " + events[selectedEvent]["EventName"] + " - " + selectedSession + " - " + driverName + " lap times"} onClickLapNumber={addLapTelemetryToChart}></DriverLapTimesChart>
+                <DriverLapTimesChart lapTimes={driverLapsToShow} driver={driverName} color={"#" + driverColor} title={season + " " + events[selectedEvent]["EventName"] + " - " + selectedSession + " - " + driverName + " lap times"} onClickLapNumber={addLapTelemetryToChart}></DriverLapTimesChart>
             )}
 
             {driverLaps === "loading" && (
@@ -279,6 +295,8 @@ export default function DriverTelemetryComparison() {
 
         <div style={{ width: "90%", margin: "0 auto", textAlign: "center" }}>
             <button className='button' disabled={!(driverLaps !== null && driverLaps !== "loading")} onClick={() => { addLapTelemetryToChart(fastestLapNumber) }}>Select fastest lap</button>
+
+            <button className='button' disabled={!(driverLaps !== null && driverLaps !== "loading")} onClick={toggleInvalidLaps}>{showInvalidLaps ? "Hide inaccurate laps" : "Show inaccurate laps"}</button>
         </div>
 
         <hr />

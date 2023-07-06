@@ -4,7 +4,7 @@ import { Routes, Route, NavLink } from "react-router-dom";
 import Results from '../pages/Results';
 import SeasonHeatMap from '../pages/SeasonHeatMap';
 import PossibleWinners from '../pages/PossibleWinners';
-import DriverTelemetryComparison from '../pages/DriverTelemetryComparison';
+import DriverTelemetryComparison from '../pages/Telemetry';
 import MainPage from '../pages/MainPage';
 
 export default function App() {

@@ -125,7 +125,7 @@ export default function LinearChart({ id = Math.round(Math.random() * 1000), tit
         return () => {
             chart();
         }
-    });
+    }, [chartData]);
 
     return <>
         <div id={"linear-chart" + id} className="chart" style={style}></div>
