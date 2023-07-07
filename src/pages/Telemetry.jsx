@@ -7,7 +7,7 @@ import f1Tire from '../assets/F1_tire_Pirelli_PZero_Red.svg.png';
 import SpeedComparisonChart from '../components/Charts/Telemetry/SpeedComparisonChart';
 
 export default function DriverTelemetryComparison() {
-    const colors = ["#FF00AA", "#00FFAA", "#FFAA00", "#AA00FF", "#00AAFF", "#AAFF00", "#FF5500", "#0055FF", "#FF0055", "#55FF00"];
+    const colors = ["#dddddd", "#FF00AA", "#00FFAA", "#FFAA00", "#AA00FF", "#00AAFF", "#AAFF00", "#FF5500", "#0055FF", "#FF0055", "#55FF00"];
 
     const [season, setSeason] = useState(null);
     const [events, setEvents] = useState([]);
@@ -115,20 +115,57 @@ export default function DriverTelemetryComparison() {
             setDriverName(driver);
             setDriverColor(color);
 
-            let min = 0;
+            let minIdx = -1;
+            let minValue = Number.POSITIVE_INFINITY;
             for (let i = 0; i < parsed.data.length; i++) {
                 const element = parsed.data[i];
-                if (element["LapTime"] < parsed.data[min]["LapTime"]) {
-                    min = i;
+                if (element["IsAccurate"] && element["LapTime"] < minValue) {
+                    minIdx = i;
+                    minValue = element["LapTime"];
                 }
             }
 
-            setFastestLapNumber(parsed.data[min]["LapNumber"]);
+            setFastestLapNumber(parsed.data[minIdx]["LapNumber"]);
         })();
+    }
+
+    const pickFirstNotUsedColor = () => {
+        for (let c of colors) {
+            let used = false;
+            for (let t of timingData) {
+                if (t["color"] == c) {
+                    used = true;
+                    break;
+                }
+            }
+
+            if (!used) {
+                return c;
+            }
+        }
+
+        return "#000";
+    };
+
+    const checkForColor = (driverColor) => {
+        console.log("ckecking");
+        if (timingData.length == 0) return driverColor;
+
+        for (let t of timingData) {
+            console.log(t, t["color"]);
+            if (t["color"] == driverColor) {
+                return pickFirstNotUsedColor();
+            }
+        }
+
+        return driverColor;
     }
 
     const addLapTelemetryToChart = (lap) => {
         console.log(season, selectedEvent, selectedSession, driverName, driverColor, lap);
+
+        let color = checkForColor("#" + driverColor);
+        let displayName = "Lap " + lap + " - " + selectedSession + " - " + driverName;
 
         (async () => {
             const response = await fetch(
@@ -138,37 +175,37 @@ export default function DriverTelemetryComparison() {
 
             let sd = JSON.parse(JSON.stringify(speedData));
             sd.push({
-                color: "#" + driverColor,
+                color,
                 name: driverName,
                 data: parsed.data.speed,
-                displayName: "Lap " + lap + " - " + selectedSession + " - " + driverName
+                displayName,
             });
             setSpeedData(sd);
 
             let gd = JSON.parse(JSON.stringify(gearData));
             gd.push({
-                color: "#" + driverColor,
+                color,
                 name: driverName,
                 data: parsed.data.gear,
-                displayName: "Lap " + lap + " - " + selectedSession + " - " + driverName
+                displayName,
             });
             setGearData(gd);
 
             let rd = JSON.parse(JSON.stringify(rpmData));
             rd.push({
-                color: "#" + driverColor,
+                color,
                 name: driverName,
                 data: parsed.data.rpm,
-                displayName: "Lap " + lap + " - " + selectedSession + " - " + driverName
+                displayName,
             });
             setRpmData(rd);
 
             let th = JSON.parse(JSON.stringify(throttleData));
             th.push({
-                color: "#" + driverColor,
+                color,
                 name: driverName,
                 data: parsed.data.throttle,
-                displayName: "Lap " + lap + " - " + selectedSession + " - " + driverName
+                displayName,
             });
             setThrottleData(th);
 
@@ -177,10 +214,10 @@ export default function DriverTelemetryComparison() {
             }
             let td = JSON.parse(JSON.stringify(timingData));
             td.push({
-                color: "#" + driverColor,
+                color,
                 name: driverName,
                 data: parsed.data.time,
-                displayName: "Lap " + lap + " - " + selectedSession + " - " + driverName
+                displayName,
             });
             setTimingData(td);
         })();
