@@ -42,3 +42,15 @@ tr {
     -o-animation: rotating 2s linear infinite;
     animation: rotating 2s linear infinite;
 }
+
+@media screen and (max-width: 1000px) {
+    table {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    table {
+        width: 100%;
+    }
+}

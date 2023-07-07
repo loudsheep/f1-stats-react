@@ -2,6 +2,7 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import { useEffect, useLayoutEffect, useState } from "react";
 import f1Tire from '../assets/F1_tire_Pirelli_PZero_Red.svg.png';
+import './SeasonHeatMap.css';
 
 
 export default function SeasonHeatMap() {
@@ -169,7 +170,7 @@ export default function SeasonHeatMap() {
     }, [data]);
 
     return (
-        <div>
+        <div style={{width: "100vw"}}>
             <div className="selector" style={{width: "50%"}}>
                 <div className="select">
                     {/* Select season to show data: */}
@@ -199,7 +200,7 @@ export default function SeasonHeatMap() {
                 </div>
             )}
 
-            <div id="chartdiv" style={{ width: "60%", height: "800px", margin: "10px auto 0 auto" }}></div>
+            <div className="chart" id="chartdiv" ></div>
         </div >
     );
 }

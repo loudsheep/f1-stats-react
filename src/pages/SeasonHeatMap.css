@@ -1,0 +1,24 @@
+.chart {
+    width: 60%;
+    min-width: 850px;
+    margin: 10px auto 0 auto;
+    height: 740px;
+}
+
+@media screen and (max-width: 1400px) {
+    .chart {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .chart {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .chart {
+        width: 100%;
+    }
+}

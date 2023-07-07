@@ -6,10 +6,20 @@
     .winners-table {
         width: 90%;
     }
+
+    .laps-chart {
+        width: 100%;
+    }
 }
 
 .laps-chart {
     width: 50%;
     height: 350px;
     margin: 3rem auto;
+}
+
+@media screen and (max-width: 1000px) {
+    .laps-chart {
+        width: 90%;
+    }
 }

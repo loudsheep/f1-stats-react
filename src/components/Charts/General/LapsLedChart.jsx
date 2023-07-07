@@ -37,7 +37,7 @@ export default function LapsLedCharts({ style, className }) {
             x: am5.percent(50),
             centerX: am5.percent(50),
             paddingTop: 0,
-            paddingBottom: 5
+            paddingBottom: 5,
         }));
 
         var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));

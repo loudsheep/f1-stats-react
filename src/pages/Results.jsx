@@ -39,9 +39,11 @@ export default function Results() {
         for (let i in events) {
             if (events[i].RoundNumber == event) {
                 setSelectedEvent(i);
-                return;
+                break;
             }
         }
+
+        // selectSession
     };
 
     const selectSession = (e) => {
