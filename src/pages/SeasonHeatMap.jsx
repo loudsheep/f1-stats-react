@@ -170,8 +170,8 @@ export default function SeasonHeatMap() {
     }, [data]);
 
     return (
-        <div style={{width: "100vw"}}>
-            <div className="selector" style={{width: "50%"}}>
+        <div style={{ width: "100%" }}>
+            <div className="selector" style={{ width: "50%" }}>
                 <div className="select">
                     {/* Select season to show data: */}
                     <select name="" id="" onChange={changeSeason} className="select-elem">
@@ -195,9 +195,7 @@ export default function SeasonHeatMap() {
             </div>
 
             {data === null && (
-                <div>
-                    <img className="loading-tire" src={f1Tire} alt="" />
-                </div>
+                <img className="loading-tire" src={f1Tire} alt="" />
             )}
 
             <div className="chart" id="chartdiv" ></div>
