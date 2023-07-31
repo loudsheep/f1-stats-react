@@ -5,12 +5,12 @@ import './index.css';
 import { HashRouter } from "react-router-dom";
 
 
-window.backendServerAddress = "loudsheep.ddns.net";
+window.backendServerAddress = "https://loudsheep.ddns.net";
 window.backendServerPort = "";
 window.backendRoutePrefix = "/api"
 
 window.getBackendURL = () => {
-  let url = "https://" + window.backendServerAddress;
+  let url = window.backendServerAddress;
   if (window.backendServerPort != null) {
     url += ":" + window.backendServerPort;
   }
