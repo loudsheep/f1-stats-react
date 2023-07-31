@@ -19,7 +19,7 @@ Formula 1 is one of the most exciting and technically advanced motorsports in th
 
 ![Screenshot 1](https://github.com/loudsheep/f1-stats-react/blob/master/src/assets/screen1.jpg)
 
-![Screenshot 2](https://github.com/loudsheep/f1-stats-react/blob/master/src/assets/screen2.jpg)
+![Screenshot 2](https://github.com/loudsheep/f1-stats-react/blob/master/src/assets/screen2.png)
 
 ![Screenshot 3](https://github.com/loudsheep/f1-stats-react/blob/master/src/assets/screen3.jpg)
 
