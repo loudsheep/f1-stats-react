@@ -2,7 +2,7 @@ import { useState } from 'react';
 import f1Tire from '../assets/F1_tire_Pirelli_PZero_Red.svg.png';
 import DriverLapTimesChart from '../components/Charts/DriverLapTimesChart';
 import Schedule from '../components/Schedule/Schedule';
-import './Results.css';
+import '../css/Results.css';
 
 export default function Results() {
     const [season, setSeason] = useState(null);

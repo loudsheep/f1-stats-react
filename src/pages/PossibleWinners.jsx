@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import LapsLedCharts from "../components/Charts/General/LapsLedChart";
-import './PossibleWinners.css';
+import '../css/PossibleWinners.css';
 
 export default function PossibleWinners() {
     const [data, setData] = useState(null);
@@ -26,6 +26,7 @@ export default function PossibleWinners() {
                             <th>Driver</th>
                             <th>Current Points</th>
                             <th>Theoretical Max Points</th>
+                            <th>Wins</th>
                             <th>Can win?</th>
                         </tr>
 
@@ -34,6 +35,7 @@ export default function PossibleWinners() {
                                 <td>{key}</td>
                                 <td>{data[key].current_points}</td>
                                 <td>{data[key].max_points}</td>
+                                <td>{data[key].wins}</td>
                                 <td style={{color: data[key].can_win ? "green" : "red"}}>{data[key].can_win ? "Yes" : "Nah (max " + data[key].max_position + " place)"}</td>
                             </tr>
                         ))}

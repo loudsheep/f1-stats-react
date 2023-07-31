@@ -2,7 +2,7 @@ import { useState } from 'react';
 import DriverLapTimesChart from '../components/Charts/DriverLapTimesChart';
 import LinearChart from '../components/Charts/Telemetry/LinearChart';
 import MiniSectorsChart from '../components/Charts/Telemetry/MiniSectorsChart';
-import './Telemetry.css';
+import '../css/Telemetry.css';
 import f1Tire from '../assets/F1_tire_Pirelli_PZero_Red.svg.png';
 import SpeedComparisonChart from '../components/Charts/Telemetry/SpeedComparisonChart';
 

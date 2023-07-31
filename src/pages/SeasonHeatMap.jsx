@@ -2,7 +2,7 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import { useEffect, useLayoutEffect, useState } from "react";
 import f1Tire from '../assets/F1_tire_Pirelli_PZero_Red.svg.png';
-import './SeasonHeatMap.css';
+import '../css/SeasonHeatMap.css';
 
 
 export default function SeasonHeatMap() {
