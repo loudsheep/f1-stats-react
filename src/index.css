@@ -102,3 +102,18 @@ h1 {
   border: 2px solid #ffffff28;
   cursor: auto;
 }
+
+@font-face {
+    font-family: f1bold;
+    src: url(./assets/Formula1-Bold_web_0.ttf);
+}
+
+@font-face {
+    font-family: f1regular;
+    src: url(./assets/Formula1-Regular_web_0.ttf);
+}
+
+@font-face {
+    font-family: f1wide;
+    src: url(./assets/Formula1-Wide_web_0.ttf);
+}

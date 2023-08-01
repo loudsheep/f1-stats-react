@@ -13,13 +13,13 @@ export default function DriverComparison() {
         setSortReverse(false);
         let t = "";
         switch (e.target.value) {
-            case "wins": t = "Wins"; break;
-            case "podiums": t = "Podiums"; break;
+            case "wins": t = "Number of Wins"; break;
+            case "podiums": t = "Number of Podiums"; break;
             case "best": t = "Best result"; setSortReverse(true); break;
             case "worst": t = "Worst result"; setSortReverse(true); break;
-            case "top10": t = "Top 10 finishes"; break;
-            case "leader": t = "Laps led"; break;
-            case "poles": t = "Pole positions"; break;
+            case "top10": t = "Number of Top 10 Finishes"; break;
+            case "leader": t = "Number of Laps Led"; break;
+            case "poles": t = "Number of Pole Positions"; break;
 
             default:
                 return;
@@ -118,14 +118,14 @@ export default function DriverComparison() {
                     {driverData === "loading" ? (
                         <img className="loading-tire" src={f1Tire} alt="" />
                     ) : (
-                        <BarChart title={title + " by driver"} id="1" data={driverData} sort={true} reverseSort={sortReverse} categoryKey='driver'></BarChart>
+                        <BarChart title={title + " by Driver"} id="1" data={driverData} sort={true} reverseSort={sortReverse} categoryKey='driver'></BarChart>
                     )}
                 </div>
                 <div className="bar-chart">
                     {teamData === "loading" ? (
                         <img className="loading-tire" src={f1Tire} alt="" />
                     ) : (
-                        <BarChart title={title + " by team"} id="2" data={teamData} sort={true} reverseSort={sortReverse} categoryKey='team'></BarChart>
+                        <BarChart title={title + " by Team"} id="2" data={teamData} sort={true} reverseSort={sortReverse} categoryKey='team'></BarChart>
                     )}
                 </div>
             </div>

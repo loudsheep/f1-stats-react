@@ -2,6 +2,10 @@
     height: 2rem;
 }
 
+.loading-text {
+    height: 700px;
+}
+
 @media screen and (max-width: 500px) {
     .winners-table {
         width: 90%;

@@ -2,6 +2,7 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5plugins_exporting from "@amcharts/amcharts5/plugins/exporting";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import { useLayoutEffect } from "react";
+import pitlanebuzz from '../../assets/pitlanebuzz_transparent.png';
 
 export default function BarChart({ data = [], title = null, id = Math.random(), sort = true, reverseSort = false, categoryKey = "value" }) {
 
@@ -19,9 +20,10 @@ export default function BarChart({ data = [], title = null, id = Math.random(), 
             layout: root.verticalLayout,
         }));
 
+        let titleLabel = null;
         if (title != null) {
-            chart.children.unshift(am5.Label.new(root, {
-                text: title,
+            titleLabel = chart.children.unshift(am5.Label.new(root, {
+                text: "[fontFamily: f1bold]" + title,
                 fontSize: 25,
                 fontWeight: "500",
                 textAlign: "center",
@@ -63,13 +65,13 @@ export default function BarChart({ data = [], title = null, id = Math.random(), 
             categoryYField: categoryKey,
             tooltip: am5.Tooltip.new(root, {
                 pointerOrientation: "left",
-                labelText: "{valueX}"
+                labelText: "{valueX}",
             })
         }));
 
         series.columns.template.setAll({
-            cornerRadiusTR: 5,
-            cornerRadiusBR: 5,
+            cornerRadiusTR: 3,
+            cornerRadiusBR: 3,
             strokeOpacity: 0
         });
 
@@ -95,18 +97,52 @@ export default function BarChart({ data = [], title = null, id = Math.random(), 
         series.bullets.push(function (root) {
             return am5.Bullet.new(root, {
                 locationX: 1,
-                // locationY: 0,
                 sprite: am5.Label.new(root, {
                     text: "{valueX}",
-                    // rotation: -90,
-                    fontSize: "1rem",
-                    // centerX: am5.percent(30),
+                    fontSize: "1em",
                     centerY: am5.percent(50),
                     populateText: true,
                     maskBullets: false,
-                    // templateField: "bulletSettings"
                 })
             });
+        });
+
+        let exporting = am5plugins_exporting.Exporting.new(root, {
+            menu: am5plugins_exporting.ExportingMenu.new(root, {}),
+            pngOptions: {
+                quality: 1,
+                maintainPixelRatio: true
+            }
+        });
+
+        let logo = chart.plotContainer.children.unshift(am5.Picture.new(root, {
+            src: pitlanebuzz,
+            width: 800,
+            x: am5.p50,
+            centerX: am5.p50,
+            y: am5.p50,
+            centerY: am5.p50,
+
+            opacity: 0.3,
+            visible: false,
+        }));
+        
+        exporting.events.on("exportstarted", (e) => {
+            chart.root.dom.style.width = "1080px";
+            chart.root.dom.style.height = "1080px";
+            root.resize();
+            titleLabel.set("fontSize", 40);
+            chart.root.dom.style.fontSize = "1.5rem";
+            logo.set("visible", true);
+        });
+
+        exporting.events.on("exportfinished", (e) => {
+            chart.root.dom.style.width = "100%";
+            chart.root.dom.style.height = "100%";
+            root.resize();
+            titleLabel.set("fontSize", 25);
+            chart.root.dom.style.fontSize = "1rem";
+            logo.set("visible", false);
         });
 
         // Axis sorting

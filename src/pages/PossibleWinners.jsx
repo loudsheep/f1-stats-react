@@ -19,7 +19,7 @@ export default function PossibleWinners() {
     return (
         <div>
             {data == null ? (
-                <> Loading... </>
+                <div className="loading-text"> Loading... </div>
             ) : (
                 <>
                     <table className="winners-table">
