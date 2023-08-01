@@ -23,9 +23,9 @@ export default function MainPage() {
                 <div className="tile" onClick={() => handleClick("/winners")}>
                     <img src="https://www.formula1.com/content/dam/fom-website/sutton/2020/Portugal/Sunday/1282134941.jpg.transform/6col/image.jpg" alt="" />
                     <div className="text">
-                        <h1>Drivers championship</h1>
+                        <h1>Drivers</h1>
                         <h2 className="animate-text">Current drivers standings</h2>
-                        <p className="animate-text">Discover the Drivers World Championship page, featuring a table with current points, and championship-winning possibilities for each driver. Stay updated on the race for the ultimate Formula 1 title.</p>
+                        <p className="animate-text">Discover the Drivers World Championship page, featuring a table with current points, championship-winning possibilities, and interesting statistics for each driver. Stay updated on the race for the ultimate Formula 1 title.</p>
                     </div>
                 </div>
 

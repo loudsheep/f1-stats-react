@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import LapsLedCharts from "../components/Charts/General/LapsLedChart";
 import '../css/PossibleWinners.css';
+import DriverComparison from "../components/DriverComparison";
 
 export default function PossibleWinners() {
     const [data, setData] = useState(null);
@@ -43,7 +44,12 @@ export default function PossibleWinners() {
                 </>
             )}
 
-            <LapsLedCharts className={"laps-chart"}></LapsLedCharts>
+            <hr />
+            <h2>2023 Season Statistics compare</h2>
+            <br />
+
+            {/* <LapsLedCharts className={"laps-chart"}></LapsLedCharts> */}
+            <DriverComparison></DriverComparison>
         </div>
     );
 }
