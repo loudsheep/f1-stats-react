@@ -5,7 +5,8 @@ import PossibleWinners from '../pages/PossibleWinners';
 import Results from '../pages/Results';
 import SeasonHeatMap from '../pages/SeasonHeatMap';
 import DriverTelemetryComparison from '../pages/Telemetry';
-import './App.css';
+import '../css/App.css';
+import DriverComparison from "../pages/DriverComparison";
 
 export default function App() {
 
@@ -76,6 +77,7 @@ export default function App() {
         <Route path="/winners" element={<PossibleWinners />} />
         <Route path="/season-standings" element={<SeasonHeatMap />} />
         <Route path="/telemetry" element={<DriverTelemetryComparison />} />
+        <Route path="/driver-comparison" element={<DriverComparison />} />
       </Routes>
     </div>
   )
