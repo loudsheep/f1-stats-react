@@ -20,6 +20,8 @@ export default function BarChart({ data = [], title = null, id = Math.random(), 
             layout: root.verticalLayout,
         }));
 
+        chart.root.dom.style.fontSize = "1rem";
+
         let titleLabel = null;
         if (title != null) {
             titleLabel = chart.children.unshift(am5.Label.new(root, {
@@ -58,12 +60,13 @@ export default function BarChart({ data = [], title = null, id = Math.random(), 
         }));
 
         var series = chart.series.push(am5xy.ColumnSeries.new(root, {
-            name: "Series 1",
+            name: "Series",
             xAxis: xAxis,
             yAxis: yAxis,
             valueXField: "value",
             categoryYField: categoryKey,
             tooltip: am5.Tooltip.new(root, {
+                fontSize: 20,
                 pointerOrientation: "left",
                 labelText: "{valueX}",
             })
