@@ -26,4 +26,6 @@ data.json
 data2.json
 testData*.json
 
+.env
+
 link.txt

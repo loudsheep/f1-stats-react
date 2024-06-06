@@ -45,7 +45,7 @@ export default function PossibleWinners() {
             )}
 
             <hr />
-            <h2>2023 Season Statistics compare</h2>
+            <h2>{window.getFullYear()} Season Statistics compare</h2>
             <br />
 
             {/* <LapsLedCharts className={"laps-chart"}></LapsLedCharts> */}

@@ -5,7 +5,7 @@ import './index.css';
 import { HashRouter } from "react-router-dom";
 
 
-window.backendServerAddress = "https://loudsheep.ddns.net";
+window.backendServerAddress = "https://f1.loudsheep.pl";
 window.backendServerPort = "";
 window.backendRoutePrefix = "/api"
 
@@ -18,6 +18,18 @@ window.getBackendURL = () => {
 
   return url
 }
+
+window.getFullYear = () => {
+    return new Date().getFullYear();
+};
+
+window.yearSelectOptions = () => {
+    let res = [];
+    for (let i = window.getFullYear(); i >= 2018; i--) {
+        res.push(i);
+    }
+    return res;
+};
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
